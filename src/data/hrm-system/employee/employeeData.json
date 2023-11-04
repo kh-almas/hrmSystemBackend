@@ -1,0 +1,46 @@
+[
+  {
+    "name_title": "Mrs",
+    "first_name": "First ",
+    "last_name": "Last ",
+    "email": "almas@gmail.com",
+    "phone": "567456",
+    "father_name": "Father ",
+    "mother_name": "Mother ",
+    "spouse_name": "Spouse ",
+    "img": {},
+    "cv": {},
+    "date_of_birth": "2023-09-25",
+    "gender": "Male",
+    "website": "http://localhost:3000/",
+    "status": "Active",
+    "full_name": "First  Last "
+  },
+  {
+    "company": "4",
+    "branch": "2",
+    "department": "2",
+    "section": "2",
+    "employeeGrade": "3",
+    "salaryGrade": "1"
+  },
+  [
+    {
+      "contact_type": "zxcfgv1",
+      "address": "vcxb",
+      "division": "xcvb",
+      "district": "dfgbv",
+      "country": "xzcv",
+      "post_code": "536"
+    },
+    {
+      "contact_type": "zxcfgv",
+      "address": "vcxb",
+      "division": "xcvb",
+      "district": "dfgbv",
+      "country": "xzcv",
+      "post_code": "536"
+    }
+  ],
+  { "address": "fghdghdgh" }
+]

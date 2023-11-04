@@ -1,0 +1,11 @@
+{
+  "name": "name",
+  "email": "e@mail.com",
+  "phone": "phone",
+  "vat": "vat",
+  "address": "address",
+  "country": "country",
+  "zip": "zip",
+  "info": "info",
+  "status": "status"
+}
