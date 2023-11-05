@@ -510,12 +510,12 @@ const checkActiveReport = async (req, res) => {
   try {
 
     const connection = await getDatabaseConnection();
-    const row = await connection.query(
+    const [row] = await connection.query(
         `call proc_hrm_report`
     );
 
     const result = {
-      data: row,
+      data: row[0],
     };
 
     return res.status(200).json({
