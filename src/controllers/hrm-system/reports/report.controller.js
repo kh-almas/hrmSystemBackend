@@ -509,9 +509,11 @@ FROM hrm_attnmachinedata LEFT JOIN hrm_machineinfo as m_info ON m_info.MachineIP
 const checkActiveReport = async (req, res) => {
   try {
 
+    const { date } = req.query;
+
     const connection = await getDatabaseConnection();
     const [row] = await connection.query(
-        `call proc_hrm_report ('10/15/2023')`
+        `call proc_hrm_report (${date})`
     );
 
     const result = {
