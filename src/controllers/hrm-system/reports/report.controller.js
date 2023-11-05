@@ -511,7 +511,7 @@ const checkActiveReport = async (req, res) => {
 
     const connection = await getDatabaseConnection();
     const row = await connection.query(
-        `call proc_hrm_report ('2022-11-2')`
+        `call proc_hrm_report`
     );
 
     const result = {
