@@ -109,7 +109,7 @@ const dateWiseAttendanceReport = async (req, res) => {
       que = ` && hrm_manual_attendance.date BETWEEN '${startdate}' AND '${enddate}'`;
     }
     const mainQRY = `SELECT hrm_manual_attendance.id,
-                                hrm_manual_attendance.date,
+                            DATE_FORMAT(hrm_manual_attendance.date, '%m/%d/%Y') as date,
                                 hrm_manual_attendance.in_time,
                                 hrm_manual_attendance.late,
                                 hrm_manual_attendance.company_id,
@@ -467,7 +467,7 @@ const employeeMovementReport = async (req, res) => {
       if (allEmployee?.length !== 0) {
         let emp_att = [];
         for (let i = 0; i < allEmployee?.length; i++) {
-          const emp_id = allEmployee[i]?.id;
+          const emp_id = allEmployee[i]?.job_code;
           const [movement] = await connection.query(
               `SELECT hrm_attnmachinedata.EmpID, hrm_attnmachinedata.AttnType, hrm_attnmachinedata.PunchTime, hrm_attnmachinedata.MachineIP, m_info.MachineNo as M_No
 FROM hrm_attnmachinedata LEFT JOIN hrm_machineinfo as m_info ON m_info.MachineIP = hrm_attnmachinedata.MachineIP where EmpID = ${emp_id} ${dateQue}`
@@ -502,4 +502,37 @@ FROM hrm_attnmachinedata LEFT JOIN hrm_machineinfo as m_info ON m_info.MachineIP
       });
     }
   };
-module.exports = {manualAttendanceReport, dateWiseAttendanceReport, employeeWiseAttendanceReport, summaryReport, employeeMovementReport};
+
+
+
+
+const checkActiveReport = async (req, res) => {
+  try {
+
+    const connection = await getDatabaseConnection();
+    const row = await connection.query(
+        `call proc_hrm_report ('2022-11-2');`
+    );
+
+    const result = {
+      data: row[0],
+    };
+
+    return res.status(200).json({
+      status: "ok",
+      body: {
+        message: `get all checkActiveReport info`,
+        data: result,
+      },
+    });
+  } catch (err) {
+    console.error(`get all checkActiveReport info error: ${err}`);
+
+    return res.status(500).json({
+      status: "error",
+      body: { message: err || `cannot get all checkActiveReport info` },
+    });
+  }
+};
+
+module.exports = {checkActiveReport, manualAttendanceReport, dateWiseAttendanceReport, employeeWiseAttendanceReport, summaryReport, employeeMovementReport};
