@@ -515,7 +515,7 @@ const checkActiveReport = async (req, res) => {
     );
 
     const result = {
-      data: row[0],
+      data: row,
     };
 
     return res.status(200).json({
