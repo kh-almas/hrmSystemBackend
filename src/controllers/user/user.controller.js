@@ -5,12 +5,24 @@ const bcrypt = require("bcrypt");
 // post user
 const postUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { userId, password } = req.body;
 
     const connection = await getDatabaseConnection();
+
+    const [user] = await connection.query(
+        `SELECT email FROM hrm_employee where id = ${userId}`
+    );
+
+    const userData = {
+      email: user[0].email,
+      password: password
+    }
+
+
+    console.log(user[0].email);
     const [row] = await connection.query(
       "SELECT * FROM users WHERE email = ?",
-      [email]
+      [user[0].email]
     );
     connection.release();
 
@@ -29,7 +41,11 @@ const postUser = async (req, res) => {
         }
 
         try {
-          const data = { email, password: hash };
+          const data = {
+            email: user[0].email,
+            password: hash,
+            role: 'user'
+          };
 
           const connection = await getDatabaseConnection();
           const [row] = await connection.query("INSERT INTO users SET ?", data);
@@ -39,7 +55,7 @@ const postUser = async (req, res) => {
 
           res.status(200).json({
             status: "ok",
-            body: { message: "user post", user: row },
+            body: { message: "user post", user: 'row' },
           });
         } catch (err) {
           console.error(`post user error: ${err}`);
