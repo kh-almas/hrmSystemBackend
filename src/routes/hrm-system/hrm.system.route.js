@@ -25,6 +25,7 @@ const salaryGradeRouter = require("./salary-grade/salary.grade.router");
 const employeeContactRoute = require("./employee-contact/employee.contact.route");
 const machineInfoRouter = require("./machine-info/machine.info.route");
 const reportRouter = require("./reports/report.route");
+const checkInfoRouter = require("./checkRoute/check.info.route");
 
 // router
 const hrmSystemRouter = express.Router();
@@ -55,6 +56,7 @@ hrmSystemRouter.use("/leave-application", leaveApplicationRouter);
 hrmSystemRouter.use("/leave-approval", leaveApprovalRouter);
 hrmSystemRouter.use("/reports", reportRouter);
 hrmSystemRouter.use("/machine", machineInfoRouter);
+hrmSystemRouter.use("/check/table", checkInfoRouter);
 
 // export
 module.exports = hrmSystemRouter;

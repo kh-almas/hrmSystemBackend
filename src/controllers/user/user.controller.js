@@ -19,7 +19,7 @@ const postUser = async (req, res) => {
     }
 
 
-    console.log(user[0].email);
+    // console.log(user[0].email);
     const [row] = await connection.query(
       "SELECT * FROM users WHERE email = ?",
       [user[0].email]
