@@ -8,6 +8,8 @@ require("dotenv").config();
 const login = async (req, res) => {
   const { email, password } = req.body;
 
+  console.log(email, password)
+
   try {
     const connection = await getDatabaseConnection();
     const [row] = await connection.query(

@@ -54,17 +54,18 @@ const getMachineInfoController = async (req, res) => {
       ON
           hrm_machineinfo.BranchId = branch.id
           WHERE hrm_machineinfo.isInActive = 0
-      ${search ? `&& hrm_machineinfo.name LIKE '%${search}%'` : ''}
+      ${search ? `&& hrm_machineinfo.MachineNo LIKE '%${search}%'` : ''}
       ${item !== 0 ? `LIMIT ${item} OFFSET ${skip}` : ''}`
         );
 
 
         const count = await connection.query(
             `SELECT
-        COUNT(hrm_machineinfo.id) as totalItem
+        COUNT(hrm_machineinfo.id) as totalItem,
+        hrm_machineinfo.MachineNo
       FROM
           hrm_machineinfo
-      ${search ? `WHERE hrm_machineinfo.name LIKE '%${search}%'` : ''}`
+      ${search ? `WHERE hrm_machineinfo.MachineNo LIKE '%${search}%'` : ''}`
         );
         const result = {
             count: count[0][0]?.totalItem,

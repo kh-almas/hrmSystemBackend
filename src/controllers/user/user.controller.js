@@ -7,6 +7,7 @@ const postUser = async (req, res) => {
   try {
     const { userId, password } = req.body;
 
+
     const connection = await getDatabaseConnection();
 
     const [user] = await connection.query(

@@ -511,20 +511,20 @@ const checkActiveReport = async (req, res) => {
 
     const { date } = req.query;
 
-    const connection = await getDatabaseConnection();
-    const [row] = await connection.query(
-        `call proc_hrm_report (${date})`
-    );
-
-    const result = {
-      data: row[0],
-    };
+    // const connection = await getDatabaseConnection();
+    // const [row] = await connection.query(
+    //     `call proc_hrm_report (${date})`
+    // );
+    //
+    // const result = {
+    //   data: row[0],
+    // };
 
     return res.status(200).json({
       status: "ok",
       body: {
         message: `get all checkActiveReport info`,
-        data: result,
+        data: 'result',
       },
     });
   } catch (err) {

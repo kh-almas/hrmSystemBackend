@@ -127,11 +127,11 @@ const getAllEmployeeController = async (req, res) => {
                 LEFT JOIN hrm_branch as branch ON hrm_employee.branch_id = branch.id
                 LEFT JOIN hrm_department as dept ON hrm_employee.department_id = dept.id
                 LEFT JOIN hrm_designation as deg ON hrm_employee.designation_id = deg.id
-           ${search ? `WHERE email LIKE '${search}%'` : '' } ${totalItem ? `LIMIT ${totalItem}` : '' } ${skip? `OFFSET ${skip}` : ''}`
+           ${search ? `WHERE hrm_employee.full_name LIKE '${search}%'` : '' } ${totalItem ? `LIMIT ${totalItem}` : '' } ${skip? `OFFSET ${skip}` : ''}`
     );
 
     const count = await connection.query(
-        `SELECT COUNT(id) as totalItem from hrm_employee  ${search ? `WHERE email LIKE '${search}%'` : '' }`
+        `SELECT COUNT(id) as totalItem, hrm_employee.full_name from hrm_employee  ${search ? `WHERE hrm_employee.full_name LIKE '${search}%'` : '' }`
     )
     const result = {
       count: count[0][0]?.totalItem,

@@ -63,14 +63,15 @@ const getAllShiftController = async (req, res) => {
       ON
         hrm_shift.updated_by = update_shift.id
         WHERE hrm_shift.status = "Active"
-      ${search ? `WHERE hrm_shift.name LIKE '%${search}%'` : ''}
+      ${search ? `&& hrm_shift.name LIKE '%${search}%'` : ''}
       ${item !== 0 ? `LIMIT ${item} OFFSET ${skip}` : ''}`
     );
 
 
     const count = await connection.query(
       `SELECT
-        COUNT(hrm_shift.id) as totalItem
+        COUNT(hrm_shift.id) as totalItem,
+        hrm_shift.name
       FROM
         hrm_shift
       ${search ? `WHERE hrm_shift.name LIKE '%${search}%'` : ''}`

@@ -57,6 +57,7 @@ hrmSystemRouter.use("/leave-approval", leaveApprovalRouter);
 hrmSystemRouter.use("/reports", reportRouter);
 hrmSystemRouter.use("/machine", machineInfoRouter);
 hrmSystemRouter.use("/check/table", checkInfoRouter);
+hrmSystemRouter.use("/check/dropdown", checkInfoRouter);
 
 // export
 module.exports = hrmSystemRouter;
