@@ -28,6 +28,7 @@ const updateContact = async (req, res) => {
     contact.created_by = req.decoded.email;
     contact.updated_by = req.decoded.email;
     const id = req.params.id;
+    contact.image = req.files?.image?.[0]?.path;
 
     const connection = await getDatabaseConnection();
     const [row] = await connection.query(

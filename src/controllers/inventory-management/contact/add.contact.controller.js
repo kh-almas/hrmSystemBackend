@@ -1,5 +1,5 @@
 // require
-const add = require("../../../base/controllers/add.controller");
+const getDatabaseConnection = require("../../../configs/db.config");
 
 // add contact
 const addContact = async (req, res) => {
@@ -20,17 +20,34 @@ const addContact = async (req, res) => {
     city,
     address,
     note,
-    pc_address,
+    pc_address = null
   } = req.body);
   contact.user_id = req.decoded.id;
   contact.status = 0;
   contact.created_by = req.decoded.email;
   contact.updated_by = req.decoded.email;
+  contact.image = req.files?.image?.[0]?.path;
 
-  const tableName = "inventory_contacts";
-  const dataName = "contact";
+  try {
+    const connection = await getDatabaseConnection();
+    const [row] = await connection.query(
+        `INSERT INTO inventory_contacts SET ?`,
+        contact
+    );
+    connection.release();
 
-  add(tableName, contact, res, dataName);
+    return res.status(200).json({
+      status: "ok",
+      body: { message: `one contact added`, data: row },
+    });
+  } catch (err) {
+    console.error(`add contact error: ${err}`);
+
+    return res.status(500).json({
+      status: "error",
+      body: { message: err || `cannot add contact` },
+    });
+  }
 };
 
 // export

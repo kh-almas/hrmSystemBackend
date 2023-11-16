@@ -5,10 +5,9 @@ const Joi = require("joi");
 const addContactValidationSchema = Joi.object({
   contact_type: Joi.string().required(),
   name: Joi.string().required(),
-  image: Joi.string().required(),
   business_name: Joi.string().required(),
   tax_number: Joi.string().required(),
-  opening_balance: Joi.string().required(),
+  opening_balance: Joi.number().required(),
   pay_term: Joi.string().required(),
   pay_term_condition: Joi.string().required(),
   email: Joi.string().email().required(),
@@ -19,7 +18,7 @@ const addContactValidationSchema = Joi.object({
   city: Joi.string().required(),
   address: Joi.string().required(),
   note: Joi.string().required(),
-  pc_address: Joi.string().required(),
+  pc_address: Joi.string(),
 });
 
 // add contact validation
@@ -28,7 +27,6 @@ const addContactValidation = async (req, res, next) => {
     const contact = ({
       contact_type,
       name,
-      image,
       business_name,
       tax_number,
       opening_balance,
