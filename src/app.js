@@ -13,6 +13,7 @@ const fileUploadRouter = require("./file-upload/file.upload");
 
 // app
 const app = express();
+const path = require('path');
 
 // use
 app.use(cors());
@@ -20,6 +21,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.static('./uploads'));
+
+const absolutePath = path.join(__dirname, 'uploads');
+app.use('/src/uploads', express.static(absolutePath));
 
 app.use("/auth", authRouter);
 app.use("/users", userRouter);

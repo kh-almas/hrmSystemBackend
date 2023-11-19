@@ -56,17 +56,35 @@ const getContact = async (req, res) => {
 // get all contacts
 const getAllContact = async (req, res) => {
   const { contact_type } = req.params;
-  let { page, item = 0, search = "" } = req.query;
-  const skip = page ? (parseInt(page) - 1) * item : 0;
   try {
-
-    const que = `SELECT * FROM inventory_contacts WHERE contact_type = '${contact_type}'
-      ${search ? `&& name LIKE '%${search}%'` : ''}
-      ${page > 1 ? `LIMIT ${item} OFFSET ${skip}` : ''}`;
-
     const connection = await getDatabaseConnection();
     const [row] = await connection.query(
-      `${que}`
+        `SELECT 
+    inventory_contacts.id,
+    inventory_contacts.user_id,
+    inventory_contacts.image as image_s_i,
+    inventory_contacts.contact_type as contact_type_s,
+    inventory_contacts.name as name_s,
+    inventory_contacts.business_name as business_name_s,
+    inventory_contacts.tax_number as tax_number_s,
+    inventory_contacts.opening_balance as opening_balance_s,
+    inventory_contacts.pay_term as pay_term_s,
+    inventory_contacts.pay_term_condition as pay_term_condition_s_g,
+    inventory_contacts.email as email_s,
+    inventory_contacts.mobile as mobile_s,
+    inventory_contacts.alternate_contact_no as alternate_contact_number_s,
+    inventory_contacts.country as country_s,
+    inventory_contacts.state as state_s,
+    inventory_contacts.city as city_s,
+    inventory_contacts.address as address_s,
+    inventory_contacts.note,
+    inventory_contacts.status,
+    inventory_contacts.created_by,
+    inventory_contacts.updated_by,
+    inventory_contacts.pc_address,
+    inventory_contacts.created_at,
+    inventory_contacts.updated_at
+    FROM inventory_contacts WHERE contact_type = '${contact_type}'`
     );
 
     const count = await connection.query(
@@ -74,10 +92,8 @@ const getAllContact = async (req, res) => {
         COUNT(inventory_contacts.id) as totalItem,
         inventory_contacts.name
       FROM
-        inventory_contacts WHERE contact_type = '${contact_type}'
-           ${search ? `&& name LIKE '%${search}%'` : ''}`
+        inventory_contacts WHERE contact_type = '${contact_type}'`
     );
-
 
     const result = {
       count: count[0][0]?.totalItem,
