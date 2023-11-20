@@ -10,6 +10,7 @@ const contactRouter = require("./routes/inventory-management/contact/contact.rou
 const productsRouter = require("./routes/inventory-management/product/product.route");
 const hrmSystemRouter = require("./routes/hrm-system/hrm.system.route");
 const fileUploadRouter = require("./file-upload/file.upload");
+const variantRouter = require('./routes/inventory-management/variant/variant.route');
 
 // app
 const app = express();
@@ -32,6 +33,7 @@ app.use("/hrm-system", hrmSystemRouter);
 app.use("/upload-files", fileUploadRouter);
 app.use("/inventory-management/contacts", contactRouter);
 app.use("/inventory-management/products", productsRouter);
+app.use("/inventory-management/variant", variantRouter);
 
 // get
 app.get("/", (req, res) => {
