@@ -17,11 +17,7 @@ const addSubcategoryValidation = require("../../../validations/inventory-managem
 const addSubcategory = require("../../../controllers/inventory-management/product/subcategory/add.subcategory.controller");
 const getSubcategory = require("../../../controllers/inventory-management/product/subcategory/get.subcategory.controller");
 const addUnitValidation = require("../../../validations/inventory-management/product/unit/add.unit.validation");
-const addUnit = require("../../../controllers/inventory-management/product/unit/add.unit.controller");
-const getUnit = require("../../../controllers/inventory-management/product/unit/get.unit.controller");
 const addVariantValidation = require("../../../validations/inventory-management/variant/add.variant.validation");
-const addVariant = require("../../../controllers/inventory-management/product/variant/add.variant.controller");
-const getVariant = require("../../../controllers/inventory-management/product/variant/get.variant.controller");
 const deleteBrand = require("../../../controllers/inventory-management/product/brand/delete.brand.controller");
 const updateBrand = require("../../../controllers/inventory-management/product/brand/update.brand.controller");
 const updateCategory = require("../../../controllers/inventory-management/product/category/update.category.controller");
@@ -32,10 +28,6 @@ const updateProductList = require("../../../controllers/inventory-management/pro
 const deleteProductList = require("../../../controllers/inventory-management/product/product-list/delete.product.list.controller");
 const updateSubcategory = require("../../../controllers/inventory-management/product/subcategory/update.subcategory.controller");
 const deleteSubcategory = require("../../../controllers/inventory-management/product/subcategory/delete.subcategory.controller");
-const updateUnit = require("../../../controllers/inventory-management/product/unit/update.unit.controller");
-const deleteUnit = require("../../../controllers/inventory-management/product/unit/delete.unit.controller");
-const updateVariant = require("../../../controllers/inventory-management/product/variant/update.variant.controller");
-const deleteVariant = require("../../../controllers/inventory-management/product/variant/delete.variant.controller");
 const paramsValidation = require("../../../validations/shared/params.validation");
 
 // router
@@ -54,8 +46,6 @@ productRouter.post(
   [addSubcategoryValidation],
   addSubcategory
 );
-productRouter.post("/add-unit", [addVariantValidation], addUnit);
-productRouter.post("/add-variant", [addVariantValidation], addVariant);
 
 // get
 productRouter.get("/product-list", getProductList);
@@ -63,8 +53,6 @@ productRouter.get("/brand-list", getBrand);
 productRouter.get("/category-list", getCategory);
 productRouter.get("/model-list", getModel);
 productRouter.get("/subcategory-list", getSubcategory);
-productRouter.get("/unit-list", getUnit);
-productRouter.get("/variant-list", getVariant);
 
 // update
 productRouter.put(
@@ -92,16 +80,6 @@ productRouter.put(
   [paramsValidation, addSubcategoryValidation],
   updateSubcategory
 );
-productRouter.put(
-  "/update-unit/:id",
-  [paramsValidation, addUnitValidation],
-  updateUnit
-);
-productRouter.put(
-  "/update-variant/:id",
-  [paramsValidation, addVariantValidation],
-  updateVariant
-);
 
 // delete
 productRouter.delete(
@@ -121,8 +99,6 @@ productRouter.delete(
   [paramsValidation],
   deleteSubcategory
 );
-productRouter.delete("/delete-unit/:id", [paramsValidation], deleteUnit);
-productRouter.delete("/delete-variant/:id", [paramsValidation], deleteVariant);
 
 // export
 module.exports = productRouter;

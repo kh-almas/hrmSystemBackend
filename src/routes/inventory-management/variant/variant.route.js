@@ -15,10 +15,6 @@ variantRouter.use(userVerify);
 // post
 variantRouter.post("/add", [addVariantValidation], addVariant);
 
-
-// get
-// variantRouter.get("/:id", getContact);
-//
 // get all
 variantRouter.get("/all", getAllVariant);
 

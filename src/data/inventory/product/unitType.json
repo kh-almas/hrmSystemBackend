@@ -1,0 +1,12 @@
+// http://localhost:5000/inventory-management/unit-type/add //post
+// http://localhost:5000/inventory-management/unit-type/all //get
+// http://localhost:5000/inventory-management/unit-type/delete/:id //delete
+// http://localhost:5000/inventory-management/unit-type/update/:id //put
+
+{
+  "unit_type": "pcs",
+  "description": "description",
+  "status": "Active",
+  "company_id": 1,
+  "branch_id": 1
+}
