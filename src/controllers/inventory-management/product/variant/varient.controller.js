@@ -4,12 +4,8 @@ const getDatabaseConnection = require("../../../../configs/db.config");
 // add variant
 const addVariant = async (req, res) => {
     try {
-        const variant = ({
-            name,
-            description,
-            status,
-            company_id,
-            branch_id, } = req.body);
+        const {name, description, status, company_id, branch_id, } = req.body
+        const variant = {name, description, status, company_id, branch_id, };
         variant.created_by = req.decoded.email;
         variant.update_by = req.decoded.email;
 

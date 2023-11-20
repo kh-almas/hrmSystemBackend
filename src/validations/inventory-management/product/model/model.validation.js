@@ -6,13 +6,14 @@ const addModelValidationSchema = Joi.object({
   name: Joi.string().required(),
   description: Joi.string().required(),
   status: Joi.string().required(),
-  pc_address: Joi.string().required(),
+  pc_address: Joi.string(),
 });
 
 // add model validation
-const addModelValidation = async (req, res, next) => {
+const modelValidation = async (req, res, next) => {
   try {
-    const model = ({ name, description, status, pc_address } = req.body);
+    const { name, description, status, pc_address } = req.body
+    const model = { name, description, status, pc_address };
 
     await addModelValidationSchema.validateAsync(model);
 
@@ -28,4 +29,4 @@ const addModelValidation = async (req, res, next) => {
 };
 
 // export
-module.exports = addModelValidation;
+module.exports = modelValidation;

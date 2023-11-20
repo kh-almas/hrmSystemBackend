@@ -1,0 +1,12 @@
+// http://localhost:5000/inventory-management/model/add //post
+// http://localhost:5000/inventory-management/model/all //get
+// http://localhost:5000/inventory-management/model/delete/:id //delete
+// http://localhost:5000/inventory-management/model/update/:id //put
+
+{
+  "name": "model",
+  "description": "description",
+  "status": "Active",
+  "company_id": 1,
+  "branch_id": 1
+}

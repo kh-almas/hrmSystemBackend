@@ -16,6 +16,7 @@ const variantRouter = require('./routes/inventory-management/variant/variant.rou
 const app = express();
 const path = require('path');
 const unitTypeRouter = require("./routes/inventory-management/unitType/unit.type.route");
+const modalRouter = require("./routes/inventory-management/model/modal.route");
 
 // use
 app.use(cors());
@@ -38,6 +39,7 @@ app.use("/inventory-management/contacts", contactRouter);
 app.use("/inventory-management/products", productsRouter);
 app.use("/inventory-management/variant", variantRouter);
 app.use("/inventory-management/unit-type", unitTypeRouter);
+app.use("/inventory-management/model", modalRouter);
 
 // get
 app.get("/", (req, res) => {
