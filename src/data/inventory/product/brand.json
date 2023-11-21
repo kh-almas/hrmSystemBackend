@@ -1,0 +1,12 @@
+// http://localhost:5000/inventory-management/brand/add //post
+// http://localhost:5000/inventory-management/brand/all //get
+// http://localhost:5000/inventory-management/brand/delete/:id //delete
+// http://localhost:5000/inventory-management/brand/update/:id //put
+
+{
+  "name": "brand",
+  "description": "description",
+  "status": "Active",
+  "company_id": 1,
+  "branch_id": 1
+}

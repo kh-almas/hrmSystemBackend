@@ -3,7 +3,7 @@ const express = require("express");
 const userVerify = require("../../../middlewares/auth/user.verify");
 const paramsValidation = require("../../../validations/shared/params.validation");
 const { addUnitType, getUnitType, updateUnitType, deleteUnitType } = require('../../../controllers/inventory-management/product/unitType/unit.type.controller');
-const addUnitTypeValidation = require("../../../validations/inventory-management/unitType/unit.type.validation");
+const addUnitTypeValidation = require("../../../validations/inventory-management/product/unitType/unit.type.validation");
 
 // router
 const unitTypeRouter = express.Router();

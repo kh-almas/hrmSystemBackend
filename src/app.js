@@ -17,6 +17,8 @@ const app = express();
 const path = require('path');
 const unitTypeRouter = require("./routes/inventory-management/unitType/unit.type.route");
 const modalRouter = require("./routes/inventory-management/model/modal.route");
+const brandRouter = require("./routes/inventory-management/brand/brand.route");
+const categoryRouter = require("./routes/inventory-management/category/category.route");
 
 // use
 app.use(cors());
@@ -40,6 +42,8 @@ app.use("/inventory-management/products", productsRouter);
 app.use("/inventory-management/variant", variantRouter);
 app.use("/inventory-management/unit-type", unitTypeRouter);
 app.use("/inventory-management/model", modalRouter);
+app.use("/inventory-management/brand", brandRouter);
+app.use("/inventory-management/category", categoryRouter);
 
 // get
 app.get("/", (req, res) => {

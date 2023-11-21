@@ -5,14 +5,17 @@ const Joi = require("joi");
 const addBrandValidationSchema = Joi.object({
   name: Joi.string().required(),
   description: Joi.string().required(),
-  status: Joi.number().integer().required(),
-  pc_address: Joi.string().required(),
+  status: Joi.string().required(),
+  company_id: Joi.number().required(),
+  branch_id: Joi.number().required(),
+  pc_address: Joi.string(),
 });
 
 // add brand validation
-const addBrandValidation = async (req, res, next) => {
+const brandValidation = async (req, res, next) => {
   try {
-    const brand = ({ name, description, status, pc_address } = req.body);
+    const {name, description, status, company_id, branch_id, pc_address} = req.body
+    const brand = {name, description, status, company_id, branch_id, pc_address};
 
     await addBrandValidationSchema.validateAsync(brand);
 
@@ -28,4 +31,4 @@ const addBrandValidation = async (req, res, next) => {
 };
 
 // export
-module.exports = addBrandValidation;
+module.exports = brandValidation;

@@ -1,0 +1,15 @@
+// http://localhost:5000/inventory-management/category/add //post
+// http://localhost:5000/inventory-management/category/all //get
+// http://localhost:5000/inventory-management/category/delete/:id //delete
+// http://localhost:5000/inventory-management/category/update/:id //put
+
+{
+  "name": "category3",
+  "code": "cat_345",
+  "parent_id": "1",
+  "parent_name": "category",
+  "description": "description",
+  "status": "Active",
+  "company_id": 1,
+  "branch_id": 1
+}

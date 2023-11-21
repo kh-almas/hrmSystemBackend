@@ -7,21 +7,18 @@ const addCategoryValidationSchema = Joi.object({
   code: Joi.string().required(),
   description: Joi.string().required(),
   status: Joi.string().required(),
-  parent_id: Joi.number().integer().required(),
-  pc_address: Joi.string().required(),
+  parent_id: Joi.number().integer(),
+  parent_name: Joi.string(),
+  company_id: Joi.number().required(),
+  branch_id: Joi.number().required(),
+  pc_address: Joi.string(),
 });
 
 // add category validation
-const addCategoryValidation = async (req, res, next) => {
+const categoryValidation = async (req, res, next) => {
   try {
-    const category = ({
-      name,
-      code,
-      description,
-      status,
-      parent_id,
-      pc_address,
-    } = req.body);
+    const {name, code, description, status, parent_id, parent_name, pc_address, company_id, branch_id} = req.body
+    const category = {name, code, description, status, parent_id, parent_name, pc_address, company_id, branch_id};
 
     await addCategoryValidationSchema.validateAsync(category);
 
@@ -37,4 +34,4 @@ const addCategoryValidation = async (req, res, next) => {
 };
 
 // export
-module.exports = addCategoryValidation;
+module.exports = categoryValidation;

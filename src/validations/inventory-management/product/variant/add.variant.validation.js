@@ -7,14 +7,15 @@ const addVariantValidationSchema = Joi.object({
   description: Joi.string().required(),
   status: Joi.string().required(),
   company_id: Joi.number().required(),
-  branch_id: Joi.number().required()
+  branch_id: Joi.number().required(),
+  pc_address: Joi.string(),
 });
 
 // add contact validation
 const addVariantValidation = async (req, res, next) => {
   try {
-    const {name, description, status, company_id, branch_id} = req.body
-    const contact = {name, description, status, company_id, branch_id};
+    const {name, description, status, company_id, branch_id, pc_address} = req.body
+    const contact = {name, description, status, company_id, branch_id, pc_address};
 
     await addVariantValidationSchema.validateAsync(contact);
 

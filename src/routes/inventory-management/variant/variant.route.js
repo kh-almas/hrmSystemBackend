@@ -3,7 +3,7 @@ const express = require("express");
 const userVerify = require("../../../middlewares/auth/user.verify");
 const getContactParamsValidation = require("../../../validations/inventory-management/contact/get.contact.params.validation");
 const paramsValidation = require("../../../validations/shared/params.validation");
-const addVariantValidation = require('../../../validations/inventory-management/variant/add.variant.validation')
+const addVariantValidation = require('../../../validations/inventory-management/product/variant/add.variant.validation')
 const { addVariant, getAllVariant, updateVariant, deleteVariant } = require('../../../controllers/inventory-management/product/variant/varient.controller');
 
 // router

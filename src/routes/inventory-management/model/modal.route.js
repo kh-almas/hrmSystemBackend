@@ -1,7 +1,6 @@
 // require
 const express = require("express");
 const userVerify = require("../../../middlewares/auth/user.verify");
-const getContactParamsValidation = require("../../../validations/inventory-management/contact/get.contact.params.validation");
 const paramsValidation = require("../../../validations/shared/params.validation");
 const { addModel, getModel, updateModel, deleteModel } = require('../../../controllers/inventory-management/product/model/model.controller');
 const modelValidation = require("../../../validations/inventory-management/product/model/model.validation");
