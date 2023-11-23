@@ -4,7 +4,7 @@ const getDatabaseConnection = require("../../../../configs/db.config");
 // add variant
 const addVariant = async (req, res) => {
     try {
-        const {name, description, status, company_id, branch_id, } = req.body
+        const {name, description, status, company_id, branch_id, variantValue } = req.body
         const variant = {name, description, status, company_id, branch_id, };
         variant.created_by = req.decoded.email;
         variant.update_by = req.decoded.email;
@@ -14,6 +14,19 @@ const addVariant = async (req, res) => {
             "INSERT INTO inventory_product_variants SET ?",
             variant
         );
+
+        if(row?.insertId && variantValue?.length > 0 ){
+            let valueForDb = []
+            variantValue?.map(singleValue =>{
+                valueForDb.push({variant_id: row?.insertId, variant_value: singleValue})
+            })
+
+            const [c_row] = await connection.query(
+                "INSERT INTO inventory_product_variant_values (variant_id, variant_value) VALUES ?",
+                [valueForDb.map(item => [item.variant_id, item.variant_value])]
+            );
+        }
+
         connection.release();
 
         return res.status(200).json({
@@ -49,10 +62,13 @@ const getAllVariant = async (req, res) => {
     inventory_product_variants.description description_s,
     inventory_product_variants.status as status_s_g,
     inventory_product_variants.created_by,
-    inventory_product_variants.update_by 
+    inventory_product_variants.update_by,
+    GROUP_CONCAT(inventory_product_variant_values.variant_value) as variant_value
                 FROM inventory_product_variants
                 LEFT JOIN hrm_company ON hrm_company.id = inventory_product_variants.company_id
-                LEFT JOIN hrm_branch ON hrm_branch.id = inventory_product_variants.branch_id`
+                LEFT JOIN hrm_branch ON hrm_branch.id = inventory_product_variants.branch_id
+                LEFT JOIN inventory_product_variant_values ON inventory_product_variant_values.variant_id = inventory_product_variants.id
+                GROUP BY inventory_product_variants.id`
         );
         connection.release();
 
@@ -77,12 +93,8 @@ const getAllVariant = async (req, res) => {
 
 const updateVariant = async (req, res) => {
     try {
-        const variant = ({
-            name,
-            description,
-            status,
-            company_id,
-            branch_id, } = req.body);
+        const {name, description, status, company_id, branch_id, variantValue } = req.body
+        const variant = {name, description, status, company_id, branch_id, };
         variant.created_by = req.decoded.email;
         variant.update_by = req.decoded.email;
         const { id } = req.params;
@@ -92,6 +104,23 @@ const updateVariant = async (req, res) => {
             "UPDATE inventory_product_variants SET ? WHERE id = ?",
             [variant, id]
         );
+
+        if(variantValue?.length > 0){
+            let valueForDb = []
+            variantValue?.map(singleValue =>{
+                valueForDb.push({variant_id: id, variant_value: singleValue})
+            })
+
+            const [delete_row] = await connection.query(
+                `DELETE FROM inventory_product_variant_values where variant_id = ${id}`
+            );
+
+            const [c_row] = await connection.query(
+                "INSERT INTO inventory_product_variant_values (variant_id, variant_value) VALUES ?",
+                [valueForDb.map(item => [item.variant_id, item.variant_value])]
+            );
+
+        }
         connection.release();
 
         return res.status(200).json({
