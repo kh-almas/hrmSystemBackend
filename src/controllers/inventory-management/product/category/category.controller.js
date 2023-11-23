@@ -41,6 +41,7 @@ const getCategory = async (req, res) => {
     const connection = await getDatabaseConnection();
     const [row] = await connection.query(
         `SELECT
+           inventory_product_categorys.id,
            inventory_product_categorys.name as name_s,
            inventory_product_categorys.code as code_s,
            hrm_company.name as company_name_s,
