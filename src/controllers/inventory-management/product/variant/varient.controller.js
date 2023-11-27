@@ -50,7 +50,6 @@ const addVariant = async (req, res) => {
 
 const getAllVariant = async (req, res) => {
     try {
-        const columns = ["id", "name", "description", "status"];
 
         const connection = await getDatabaseConnection();
         const [row] = await connection.query(

@@ -4,21 +4,9 @@ const getDatabaseConnection = require("../../../../configs/db.config");
 // get product list
 const getProductList = async (req, res) => {
   try {
-    const columns = [
-      "image",
-      "name",
-      "sku",
-      "brand_id",
-      "model_id",
-      "purchase_price",
-      "selling_price",
-      "product_type",
-      "category_id",
-    ];
-
     const connection = await getDatabaseConnection();
     const [row] = await connection.query(
-      `SELECT ${columns.join(",")} FROM products`
+      `SELECT * FROM  inventory_products`
     );
     connection.release();
 
@@ -28,7 +16,7 @@ const getProductList = async (req, res) => {
       status: "ok",
       body: {
         message: "get all product list`",
-        products: row,
+        data: row,
       },
     });
   } catch (err) {
