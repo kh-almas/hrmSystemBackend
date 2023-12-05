@@ -11,7 +11,7 @@ const addVariant = async (req, res) => {
 
         const connection = await getDatabaseConnection();
         const [row] = await connection.query(
-            "INSERT INTO inventory_product_variants SET ?",
+            "INSERT INTO inventory_variants SET ?",
             variant
         );
 
@@ -22,7 +22,7 @@ const addVariant = async (req, res) => {
             })
 
             const [c_row] = await connection.query(
-                "INSERT INTO inventory_product_variant_values (variant_id, variant_value) VALUES ?",
+                "INSERT INTO inventory_variant_values (variant_id, variant_value) VALUES ?",
                 [valueForDb.map(item => [item.variant_id, item.variant_value])]
             );
         }
@@ -54,20 +54,20 @@ const getAllVariant = async (req, res) => {
         const connection = await getDatabaseConnection();
         const [row] = await connection.query(
             `SELECT 
-    inventory_product_variants.id,
+    inventory_variants.id,
     hrm_company.name as company_name_s,
     hrm_branch.name as branch_name_s,
-    inventory_product_variants.name as name_s,
-    inventory_product_variants.description description_s,
-    inventory_product_variants.status as status_s_g,
-    inventory_product_variants.created_by,
-    inventory_product_variants.update_by,
-    GROUP_CONCAT(inventory_product_variant_values.variant_value) as variant_value
-                FROM inventory_product_variants
-                LEFT JOIN hrm_company ON hrm_company.id = inventory_product_variants.company_id
-                LEFT JOIN hrm_branch ON hrm_branch.id = inventory_product_variants.branch_id
-                LEFT JOIN inventory_product_variant_values ON inventory_product_variant_values.variant_id = inventory_product_variants.id
-                GROUP BY inventory_product_variants.id`
+    inventory_variants.name as name_s,
+    inventory_variants.description description_s,
+    inventory_variants.status as status_s_g,
+    inventory_variants.created_by,
+    inventory_variants.update_by,
+    GROUP_CONCAT(inventory_variant_values.variant_value) as variant_value
+                FROM inventory_variants
+                LEFT JOIN hrm_company ON hrm_company.id = inventory_variants.company_id
+                LEFT JOIN hrm_branch ON hrm_branch.id = inventory_variants.branch_id
+                LEFT JOIN inventory_variant_values ON inventory_variant_values.variant_id = inventory_variants.id
+                GROUP BY inventory_variants.id`
         );
         connection.release();
 
@@ -90,6 +90,40 @@ const getAllVariant = async (req, res) => {
     }
 };
 
+const getAllVariantValue = async (req, res) => {
+    try {
+
+        const connection = await getDatabaseConnection();
+        const [row] = await connection.query(
+            `SELECT
+                 inventory_variant_values.id,
+                 inventory_variant_values.variant_id,
+                 inventory_variant_values.variant_value as value,
+                 inventory_variants.name as variant_name
+                FROM  inventory_variant_values
+                LEFT JOIN inventory_variants ON inventory_variant_values.variant_id = inventory_variants.id`
+        );
+        connection.release();
+
+        return res.status(200).json({
+            status: "ok",
+            body: {
+                message: "get all variants`",
+                data: row,
+            },
+        });
+    } catch (err) {
+        console.error(`get product variant error: ${err}`);
+
+        return res.status(500).json({
+            status: "error",
+            body: {
+                message: err || "cannot get variant",
+            },
+        });
+    }
+}
+
 const updateVariant = async (req, res) => {
     try {
         const {name, description, status, company_id, branch_id, variantValue } = req.body
@@ -100,7 +134,7 @@ const updateVariant = async (req, res) => {
 
         const connection = await getDatabaseConnection();
         const [row] = await connection.query(
-            "UPDATE inventory_product_variants SET ? WHERE id = ?",
+            "UPDATE inventory_variants SET ? WHERE id = ?",
             [variant, id]
         );
 
@@ -111,11 +145,11 @@ const updateVariant = async (req, res) => {
             })
 
             const [delete_row] = await connection.query(
-                `DELETE FROM inventory_product_variant_values where variant_id = ${id}`
+                `DELETE FROM inventory_variant_values where variant_id = ${id}`
             );
 
             const [c_row] = await connection.query(
-                "INSERT INTO inventory_product_variant_values (variant_id, variant_value) VALUES ?",
+                "INSERT INTO inventory_variant_values (variant_id, variant_value) VALUES ?",
                 [valueForDb.map(item => [item.variant_id, item.variant_value])]
             );
 
@@ -142,7 +176,7 @@ const deleteVariant = async (req, res) => {
 
         const connection = await getDatabaseConnection();
         const [row] = await connection.query(
-            "DELETE FROM inventory_product_variants WHERE id = ?",
+            "DELETE FROM inventory_variants WHERE id = ?",
             [id]
         );
         connection.release();
@@ -161,4 +195,4 @@ const deleteVariant = async (req, res) => {
     }
 };
 
-module.exports = { addVariant, getAllVariant, updateVariant, deleteVariant };
+module.exports = { addVariant, getAllVariant, updateVariant, deleteVariant, getAllVariantValue };
