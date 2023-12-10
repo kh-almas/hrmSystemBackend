@@ -1,0 +1,6 @@
+//http://localhost:5000/inventory-management/products/options/add
+
+{
+  "name": "options1",
+  "type": "dropdown"
+}

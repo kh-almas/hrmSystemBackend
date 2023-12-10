@@ -1,11 +1,8 @@
 // require
 const express = require("express");
 const userVerify = require("../../../middlewares/auth/user.verify");
-const addProductList = require("../../../controllers/inventory-management/product/product-list/add.product.list.controller");
-const getProductList = require("../../../controllers/inventory-management/product/product-list/get.product.list.controller");
+const {addProductList, getProductList, updateProductList, deleteProductList, addProductOptions, getProductOptions} = require("../../../controllers/inventory-management/product/product-list/product.list.controller");
 const addProductListValidation = require("../../../validations/inventory-management/product/product-list/add.product.list.validation");
-const updateProductList = require("../../../controllers/inventory-management/product/product-list/update.product.list.controller");
-const deleteProductList = require("../../../controllers/inventory-management/product/product-list/delete.product.list.controller");
 const paramsValidation = require("../../../validations/shared/params.validation");
 
 // router
@@ -16,7 +13,6 @@ productRouter.use(userVerify);
 
 // post
 productRouter.post("/add", addProductList);
-
 
 // get
 productRouter.get("/list", getProductList);
@@ -34,6 +30,14 @@ productRouter.delete(
   [paramsValidation],
   deleteProductList
 );
+
+
+// post
+productRouter.post("/options/add", addProductOptions);
+
+// get
+productRouter.get("/options/list", getProductOptions);
+
 
 // export
 module.exports = productRouter;
