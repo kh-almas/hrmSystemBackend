@@ -15,77 +15,28 @@ function generateSkuCode() {
 
 // add product list
 const addProductList = async (req, res) => {
+  const connection = await getDatabaseConnection();
   try {
-    const {
-      unit_id,
-      brand_id,
-      category_id,
-      model_id,
-      is_raw_material,
-      name,
-      hsn,
-      p_height,
-      p_width,
-      p_length,
-      package_height,
-      package_width,
-      package_length,
-      measurement_unit,
-      note,
-      sku,
-      opening_stock_quantity,
-      barcode_type,
-      alert_quantity,
-      purchase_price,
-      selling_price,
-      tax_type,
-      tax
-    } = req.body;
-    const {product_type} = req.body
+    let returnItem;
+    const img = req.files?.images;
+    const {unit_id, brand_id, category_id, model_id, is_raw_material, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, note, sku, opening_stock_quantity, barcode_type, alert_quantity, purchase_price, selling_price, min_selling_price, tax_type, tax} = req.body;
+    const {product_type} = req.body;
     const user_id = req.decoded.id;
 
     const skuCode = generateSkuCode();
 
-    const connection = await getDatabaseConnection();
 
-    const singleProduct = {unit_id, brand_id, category_id, model_id, is_raw_material, name, hsn, p_height, p_width, p_length, package_height, package_width, package_length, measurement_unit, note}
+    await connection.beginTransaction();
+
+    const singleProduct = {unit_id, brand_id, category_id, model_id, is_raw_material, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, note}
     singleProduct.product_type = product_type;
     singleProduct.created_by = user_id;
     singleProduct.updated_by = user_id;
     const [singleProductRow] = await connection.query("INSERT INTO inventory_products SET ?", singleProduct);
 
-
-    if(product_type === "Variant"){
-      const varianteProductSKU = {barcode_type, tax_type, tax, p_height, p_width, p_length, package_height, package_width, package_length, measurement_unit,};
-      varianteProductSKU.created_by = user_id;
-      varianteProductSKU.updated_by = user_id;
-
-
-      const {variant} = req.body;
-      variant?.map( async (singleVariant) => {
-        const {sku, opening_stock_quantity, purchase_price, selling_price, variant_id, variation_value_id} = singleVariant;
-        const finalData = {...varianteProductSKU, sku, opening_stock_quantity, purchase_price, selling_price,}
-        if (singleProductRow?.insertId > 0) {
-          finalData.product_id = singleProductRow?.insertId;
-          const [singleProductSKURow] = await connection.query("INSERT INTO inventory_products_sku SET ?", finalData);
-
-          if (singleProductSKURow?.insertId > 0){
-            const product_sku_id = singleProductSKURow?.insertId
-            const inventoryProductVariant = {product_sku_id, variant_id, variation_value_id}
-            inventoryProductVariant.created_by = user_id;
-            inventoryProductVariant.updated_by = user_id;
-            inventoryProductVariant.product_id = singleProductRow?.insertId;
-
-            const [inventoryProductVariantRow] = await connection.query("INSERT INTO inventory_product_variant SET ?", inventoryProductVariant);
-          }
-        }
-      })
-    }
-
-
     let parent_sku = 0;
-    if (product_type === 'Single' || product_type === 'Combo'){
-      const singleProductSKU = {sku, opening_stock_quantity, barcode_type, alert_quantity, purchase_price, selling_price, tax_type, tax, p_height, p_width, p_length, package_height, package_width, package_length, measurement_unit,};
+    if (product_type === 'Single' || product_type === 'Combo' || product_type === 'Service'){
+      const singleProductSKU = {sku, opening_stock_quantity, barcode_type, alert_quantity, purchase_price, selling_price, min_selling_price, tax_type, tax, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit,};
       singleProductSKU.created_by = user_id;
       singleProductSKU.updated_by = user_id;
 
@@ -96,35 +47,85 @@ const addProductList = async (req, res) => {
       }
     }
 
+    img?.map(async (singleImage) => {
+      const finalImgData =  {
+        product_id: singleProductRow?.insertId,
+        type: 'product',
+        name: singleImage?.filename,
+      }
+      const [singleProductImgRow] = await connection.query("INSERT INTO inventory_product_image SET ?", finalImgData);
+    })
 
-    if (product_type === 'Combo'){
-      for (let i = 0; i < req.body?.howManyProduct; i++) {
-        const parent_sku_id = parent_sku;
-        const productSkuId= `product_id_${i}`;
-        const singleQuantity = `quantity_${i}`;
-        // const price = `price_${i}`;
-        // const p_tax = `tax_${i}`;
+    const convertObjectToArray = (inputObject) => {
+      return Object.values(inputObject).flatMap(innerObj => Object.values(innerObj));
+    };
 
-        const {[singleQuantity]: quantity, [productSkuId] : product_sku_id} = req?.body;
-        const info = {parent_sku_id, quantity, product_sku_id}
-        // console.log(info);
-        const [product_combo] = await connection.query("INSERT INTO inventory_products_combo SET ?", info);
-        // console.log(product_combo, "product_combo");
+    const processedOption = convertObjectToArray(JSON.parse(req.body?.options));
+    processedOption?.map(async singleOption => {
+      singleOption.product_id = singleProductRow?.insertId;
+      const [productOptionsRow] = await connection.query("INSERT INTO inventory_products_options SET ?", singleOption);
+    })
+
+
+    if(product_type === "Variant"){
+      const productVariantSku = JSON.parse(req.body?.variant_sku);
+
+
+      for (let key in productVariantSku){
+        const {sku, opening_stock_quantity, purchase_price, selling_price, tax } = productVariantSku[key];
+        const skuValueForVariant = {sku, barcode_type, opening_stock_quantity, alert_quantity, purchase_price, selling_price, min_selling_price, tax_type, tax, p_length, p_height, p_width, p_weight, package_height, package_width, package_length, package_weight, measurement_unit}
+
+        skuValueForVariant.product_id = singleProductRow?.insertId;
+        const [singleProductSKURow] = await connection.query("INSERT INTO inventory_products_sku SET ?", skuValueForVariant);
+
+        const variant = JSON.parse(productVariantSku[key]?.variant);
+        for (let key in variant){
+          const {value, variant_id} = variant[key];
+          const variantInfo = {variant_id, variation_value_id: value}
+          variantInfo.product_sku_id = singleProductSKURow?.insertId;
+          variantInfo.product_id = singleProductRow?.insertId;
+          const [inventoryProductVariantRow] = await connection.query("INSERT INTO inventory_product_variant SET ?", variantInfo);
+        }
+        const skuImage = productVariantSku[key]?.sku_images;
+
+        skuImage?.map(async (singleImage) => {
+          const finalSkuImgData =  {
+            product_id: singleProductRow?.insertId,
+            type: 'sku',
+            name: singleImage,
+          }
+          const [singleProductImgRow] = await connection.query("INSERT INTO inventory_product_image SET ?", finalSkuImgData);
+        })
+      }
     }
 
-    connection.release();
+    if (product_type === 'Combo') {
+      for (let i = 0; i < req.body?.howManyProduct; i++) {
+        const parent_sku_id = parent_sku;
+        const productSkuId = `product_id_${i}`;
+        const singleQuantity = `quantity_${i}`;
+        const {[singleQuantity]: quantity, [productSkuId]: product_sku_id} = req?.body;
+        const info = {parent_sku_id, quantity, product_sku_id}
+        const [product_combo] = await connection.query("INSERT INTO inventory_products_combo SET ?", info);
+      }
+    }
 
+
+      await connection.commit();
     return res.status(200).json({
       status: "ok",
-      body: { message: "one product list added", product: 'row' },
+      body: { message: "one product list added"},
     });
-  }} catch (err) {
+  } catch (err) {
+    await connection.rollback();
     console.error(`add product list error: ${err}`);
 
     return res.status(500).json({
       status: "error",
       body: { message: err || "cannot add product list" },
     });
+  } finally {
+    connection.release();
   }
 };
 
@@ -142,7 +143,7 @@ const getProductList = async (req, res) => {
               LEFT JOIN inventory_product_models pm ON p.model_id = pm.id
               LEFT JOIN inventory_product_brands as pb ON p.brand_id = pb.id
 
-       WHERE p.product_type != 'Combo' and p.product_type != 'Service' and p.status = 1`
+       WHERE p.product_type != 'Combo' and p.product_type != 'Service'`
     );
     connection.release();
 
