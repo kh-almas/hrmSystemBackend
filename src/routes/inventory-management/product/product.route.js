@@ -1,7 +1,7 @@
 // require
 const express = require("express");
 const userVerify = require("../../../middlewares/auth/user.verify");
-const {addProductList, getProductList, updateProductList, deleteProductList, addProductOptions, getProductOptions} = require("../../../controllers/inventory-management/product/product-list/product.list.controller");
+const {addProductList, getProductList, updateProductList, deleteProductList, addProductOptions, getProductOptions, addVariantValue} = require("../../../controllers/inventory-management/product/product-list/product.list.controller");
 const addProductListValidation = require("../../../validations/inventory-management/product/product-list/add.product.list.validation");
 const paramsValidation = require("../../../validations/shared/params.validation");
 const multer = require('multer');
@@ -154,6 +154,9 @@ productRouter.get("/options/list", getProductOptions);
 
 // post
 productRouter.post("/upload/sku/image", addProductOptions);
+
+// post
+productRouter.post("/add/variant-value",  addVariantValue);
 
 
 // export

@@ -19,7 +19,7 @@ const addProductList = async (req, res) => {
   try {
     let returnItem;
     const img = req.files?.images;
-    const {unit_id, brand_id, category_id, model_id, is_raw_material, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, note, sku, opening_stock_quantity, barcode_type, alert_quantity, purchase_price, selling_price, min_selling_price, tax_type, tax} = req.body;
+    const {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, note, sku, opening_stock_quantity, barcode_type, alert_quantity, weight_unit, purchase_price, selling_price, min_selling_price, tax_type, tax} = req.body;
     const {product_type} = req.body;
     const user_id = req.decoded.id;
 
@@ -28,7 +28,7 @@ const addProductList = async (req, res) => {
 
     await connection.beginTransaction();
 
-    const singleProduct = {unit_id, brand_id, category_id, model_id, is_raw_material, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, note}
+    const singleProduct = {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, note}
     singleProduct.product_type = product_type;
     singleProduct.created_by = user_id;
     singleProduct.updated_by = user_id;
@@ -36,7 +36,7 @@ const addProductList = async (req, res) => {
 
     let parent_sku = 0;
     if (product_type === 'Single' || product_type === 'Combo' || product_type === 'Service'){
-      const singleProductSKU = {sku, opening_stock_quantity, barcode_type, alert_quantity, purchase_price, selling_price, min_selling_price, tax_type, tax, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit,};
+      const singleProductSKU = {sku, opening_stock_quantity, barcode_type, alert_quantity, purchase_price, selling_price, min_selling_price, tax_type, tax, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, weight_unit};
       singleProductSKU.created_by = user_id;
       singleProductSKU.updated_by = user_id;
 
@@ -73,7 +73,7 @@ const addProductList = async (req, res) => {
 
       for (let key in productVariantSku){
         const {sku, opening_stock_quantity, purchase_price, selling_price, tax } = productVariantSku[key];
-        const skuValueForVariant = {sku, barcode_type, opening_stock_quantity, alert_quantity, purchase_price, selling_price, min_selling_price, tax_type, tax, p_length, p_height, p_width, p_weight, package_height, package_width, package_length, package_weight, measurement_unit}
+        const skuValueForVariant = {sku, barcode_type, opening_stock_quantity, alert_quantity, purchase_price, selling_price, min_selling_price, tax_type, tax, p_length, p_height, p_width, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, weight_unit}
 
         skuValueForVariant.product_id = singleProductRow?.insertId;
         const [singleProductSKURow] = await connection.query("INSERT INTO inventory_products_sku SET ?", skuValueForVariant);
@@ -318,5 +318,37 @@ const getProductOptions = async (req, res) => {
   }
 }
 
+const addVariantValue = async (req, res) => {
+  try {
+    const {variant_id, variant_value} = req.body
+    const variantValue = {variant_id, variant_value};
+
+    const connection = await getDatabaseConnection();
+    const [row] = await connection.query(
+        "INSERT INTO inventory_variant_values SET ?",
+        variantValue
+    );
+
+    connection.release();
+
+    return res.status(200).json({
+      status: "ok",
+      body: {
+        message: "one variant added",
+        data: row,
+      },
+    });
+  } catch (err) {
+    console.error(`add variant error: ${err}`);
+
+    return res.status(500).json({
+      status: "error",
+      body: {
+        message: err || "cannot add variant",
+      },
+    });
+  }
+}
+
 // export
-module.exports = {addProductList, getProductList, updateProductList, deleteProductList, addProductOptions, getProductOptions};
+module.exports = {addProductList, getProductList, updateProductList, deleteProductList, addProductOptions, getProductOptions, addVariantValue};
