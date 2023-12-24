@@ -28,7 +28,7 @@ const addProductList = async (req, res) => {
 
     await connection.beginTransaction();
 
-    const singleProduct = {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, note}
+    const singleProduct = {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, weight_unit, note}
     singleProduct.product_type = product_type;
     singleProduct.created_by = user_id;
     singleProduct.updated_by = user_id;
@@ -350,5 +350,33 @@ const addVariantValue = async (req, res) => {
   }
 }
 
+const getAllSku = async (req, res) => {
+  try {
+    const connection = await getDatabaseConnection();
+    const [row] = await connection.query(
+        "SELECT sku FROM inventory_products_sku"
+    );
+
+    connection.release();
+
+    return res.status(200).json({
+      status: "ok",
+      body: {
+        message: "one variant added",
+        data: row,
+      },
+    });
+  } catch (err) {
+    console.error(`add variant error: ${err}`);
+
+    return res.status(500).json({
+      status: "error",
+      body: {
+        message: err || "cannot add variant",
+      },
+    });
+  }
+}
+
 // export
-module.exports = {addProductList, getProductList, updateProductList, deleteProductList, addProductOptions, getProductOptions, addVariantValue};
+module.exports = {getAllSku, addProductList, getProductList, updateProductList, deleteProductList, addProductOptions, getProductOptions, addVariantValue};
