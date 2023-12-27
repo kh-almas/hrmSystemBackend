@@ -1,6 +1,68 @@
 // require
 const getDatabaseConnection = require("../../../../configs/db.config");
 
+const getAllProduct = async (req, res) => {
+  try {
+    const connection = await getDatabaseConnection();
+    const [row] = await connection.query(
+        `SELECT 
+    sku.sku as productSku,
+    sku.barcode_type as barcodeType,
+    sku.opening_stock_quantity as openingStockQuantity,
+    sku.alert_quantity as alertQuantity,
+    sku.purchase_price as purchasePrice,
+    sku.selling_price as sellingPrice,
+    sku.min_selling_price as minSellingPrice,
+    sku.tax_type as taxType,
+    sku.tax as tax,
+    sku.p_length as productLength,
+    sku.p_height as productHeight,
+    sku.p_width as productWidth,
+    sku.p_weight as productWeight,
+    sku.p_weight as productWeight,
+    sku.package_height as packageHeight,
+    sku.package_width as packageWidth,
+    sku.package_length as packageLength,
+    sku.package_weight as packageWeight,
+    sku.measurement_unit as measurementUnit,
+    sku.weight_unit as weightUnit,
+    product.unit_id as unitId,
+    product.brand_id as brandId,
+    product.category_id as categoryId,
+    product.model_id as modelId,
+    product.is_raw_material as isRawMaterial,
+    product.has_serial_key as hasSerialKey,
+    product.product_type as productType,
+    product.name as productName,
+    product.hsn as hsn,
+    product.note as note,
+        FROM inventory_products_sku as sku
+        LEFT JOIN inventory_products as product ON sku.product_id = product.id
+--         LEFT JOIN inventory_product_units as unit ON product.unit_id = unit.id
+        `
+    );
+
+    connection.release();
+
+    return res.status(200).json({
+      status: "ok",
+      body: {
+        message: "get all product",
+        data: row,
+      },
+    });
+  } catch (err) {
+    console.error(`add variant error: ${err}`);
+
+    return res.status(500).json({
+      status: "error",
+      body: {
+        message: err || "cannot add variant",
+      },
+    });
+  }
+}
+
 function generateSkuCode() {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let skuCode = '';
@@ -132,7 +194,7 @@ const addProductList = async (req, res) => {
 
 
 // get product list
-const getProductList = async (req, res) => {
+const getProductListForComboSelect = async (req, res) => {
   try {
     const connection = await getDatabaseConnection();
     const [row] = await connection.query(
@@ -362,7 +424,7 @@ const getAllSku = async (req, res) => {
     return res.status(200).json({
       status: "ok",
       body: {
-        message: "one variant added",
+        message: "get one variant",
         data: row,
       },
     });
@@ -379,4 +441,4 @@ const getAllSku = async (req, res) => {
 }
 
 // export
-module.exports = {getAllSku, addProductList, getProductList, updateProductList, deleteProductList, addProductOptions, getProductOptions, addVariantValue};
+module.exports = {getAllSku, addProductList, getAllProduct, getProductListForComboSelect, updateProductList, deleteProductList, addProductOptions, getProductOptions, addVariantValue};
