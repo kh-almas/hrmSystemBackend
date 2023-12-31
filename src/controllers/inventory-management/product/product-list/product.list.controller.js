@@ -181,7 +181,7 @@ const addProductList = async (req, res) => {
     }
 
 
-      await connection.commit();
+    await connection.commit();
     return res.status(200).json({
       status: "ok",
       body: { message: "one product list added"},
