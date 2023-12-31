@@ -1,11 +1,7 @@
 // require
 const express = require("express");
 const userVerify = require("../../../middlewares/auth/user.verify");
-<<<<<<< HEAD
 const {getAllSku, addProductList, getAllProduct, getSingleProduct, getProductListForComboSelect, updateProductList, deleteProductList, addProductOptions, getProductOptions, addVariantValue} = require("../../../controllers/inventory-management/product/product-list/product.list.controller");
-=======
-const {getAllSku, addProductList, getAllProduct, getProductListForComboSelect, updateProductList, deleteProductList, addProductOptions, getProductOptions, addVariantValue} = require("../../../controllers/inventory-management/product/product-list/product.list.controller");
->>>>>>> 5b6559fd085192287a2749e9aa61c1ba95aeea68
 const addProductListValidation = require("../../../validations/inventory-management/product/product-list/add.product.list.validation");
 const paramsValidation = require("../../../validations/shared/params.validation");
 const multer = require('multer');
@@ -135,12 +131,9 @@ productRouter.use((err, req, res, next) => {
 productRouter.get("/list/combo/select", getProductListForComboSelect);
 
 // get
-<<<<<<< HEAD
 productRouter.get("/single/:id", getSingleProduct);
 
 // get
-=======
->>>>>>> 5b6559fd085192287a2749e9aa61c1ba95aeea68
 productRouter.get("/list", getAllProduct);
 
 // update
