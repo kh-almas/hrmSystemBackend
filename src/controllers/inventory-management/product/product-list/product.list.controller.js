@@ -205,7 +205,7 @@ const getProductListForComboSelect = async (req, res) => {
   try {
     const connection = await getDatabaseConnection();
     const [row] = await connection.query(
-        `SELECT p.name as name, ps.selling_price as price, ps.id as id, ps.sku as sku, pc.name as category_name, pm.name as model_name, pb.name as brand_name
+        `SELECT p.name as name, ps.selling_price as price, ps.tax as tax, ps.id as id, ps.sku as sku, pc.name as category_name, pm.name as model_name, pb.name as brand_name
 
        FROM inventory_products_sku as ps
               LEFT JOIN inventory_products as p ON p.id = ps.product_id
@@ -239,12 +239,12 @@ const getProductListForComboSelect = async (req, res) => {
 //get single product
 const getSingleProduct = async (req, res) => {
   const id = req.params.id;
-  // console.log('id', id);
   try {
     const connection = await getDatabaseConnection();
     const [row] = await connection.query(
         `SELECT 
     sku.id as id,
+    product.id as productID,
     sku.sku as productSku,
     sku.barcode_type as barcodeType,
     sku.opening_stock_quantity as openingStockQuantity,
@@ -287,6 +287,27 @@ const getSingleProduct = async (req, res) => {
         WHERE sku.id = ${id}
         `
     );
+
+    const [productOptions] = await connection.query("select * From inventory_products_options WHERE Product_id = ?", [
+      row[0].productID
+    ]);
+
+    const [comboProduct] = await connection.query(`
+        select 
+        productSku.id as id,
+        product.name as name,
+        combo.quantity as quantity,
+        productSku.sku as sku,
+        productSku.selling_price as price,
+        productSku.tax as tax
+        From inventory_products_combo as combo
+        LEFT JOIN inventory_products_sku as productSku ON productSku.id = combo.product_sku_id
+        LEFT JOIN inventory_products as product ON product.id = productSku.product_id
+         WHERE parent_sku_id = ${row[0].id}
+        `);
+
+    row[0].productOptions = productOptions;
+    row[0].comboProduct = comboProduct;
 
     connection.release();
 
