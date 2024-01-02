@@ -5,7 +5,7 @@ require("dotenv").config();
 // user verify
 const userVerify = (req, res, next) => {
   try {
-    if (req.originalUrl.includes("image") || req.originalUrl.includes("cv")) {
+    if (req.originalUrl.includes("image") || req.originalUrl.includes("cv") || req.originalUrl.includes("uploads")) {
       next();
     } else {
       const token = req.headers.authorization?.split(" ")[1];

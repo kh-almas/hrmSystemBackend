@@ -1,7 +1,7 @@
 // require
 const getDatabaseConnection = require("../../../../configs/db.config");
 
-const getAllProduct = async (req, res) => {
+const getAllSkuInList = async (req, res) => {
   try {
     const connection = await getDatabaseConnection();
     const [row] = await connection.query(
@@ -46,6 +46,57 @@ const getAllProduct = async (req, res) => {
         LEFT JOIN inventory_product_brands as brand ON product.brand_id = brand.id
         LEFT JOIN inventory_product_categorys as category ON product.brand_id = category.id
         LEFT JOIN inventory_product_models as model ON product.model_id = model.id
+        `
+    );
+
+    connection.release();
+
+    return res.status(200).json({
+      status: "ok",
+      body: {
+        message: "get all product",
+        data: row,
+      },
+    });
+  } catch (err) {
+    console.error(`add variant error: ${err}`);
+
+    return res.status(500).json({
+      status: "error",
+      body: {
+        message: err || "cannot add variant",
+      },
+    });
+  }
+}
+const getAllProduct = async (req, res) => {
+  try {
+    const connection = await getDatabaseConnection();
+    const [row] = await connection.query(
+        `SELECT 
+product.id,
+ product.name as productName,
+    product.unit_id as unitId,
+    unit.unit_type as unitType,
+    product.brand_id as brandId,
+    brand.name as brandName,
+    product.category_id as categoryId,
+    category.name as categoryName,
+    product.model_id as modelId,
+    model.name as modelName,
+    (SELECT COUNT(*) FROM inventory_products_sku as sku WHERE sku.product_id = product.id) AS totalSku,
+   (SELECT GROUP_CONCAT(sku1.sku) FROM inventory_products_sku as sku1 WHERE sku1.product_id = product.id) AS Skus,    
+    product.is_raw_material as isRawMaterial,
+    product.has_serial_key as hasSerialKey,
+    product.product_type as productType,   
+    product.hsn as hsn,
+    product.note as note
+        FROM inventory_products as product 
+        LEFT JOIN inventory_product_units as unit ON product.unit_id = unit.id
+        LEFT JOIN inventory_product_brands as brand ON product.brand_id = brand.id
+        LEFT JOIN inventory_product_categorys as category ON product.brand_id = category.id
+        LEFT JOIN inventory_product_models as model ON product.model_id = model.id
+       HAVING (SELECT COUNT(*) FROM inventory_products_sku as sku WHERE sku.product_id = product.id) > 0;
         `
     );
 
@@ -237,7 +288,7 @@ const getProductListForComboSelect = async (req, res) => {
 };
 
 //get single product
-const getSingleProduct = async (req, res) => {
+const getSingleSkuProduct = async (req, res) => {
   const id = req.params.id;
   try {
     const connection = await getDatabaseConnection();
@@ -288,6 +339,12 @@ const getSingleProduct = async (req, res) => {
         `
     );
 
+    const [productImage] = await connection.query("select * From inventory_product_image WHERE product_id = ?", [
+      row[0].productID
+    ]);
+    // console.log('productImage', productImage)
+    // console.log('id', productImage)
+
     const [productOptions] = await connection.query("select * From inventory_products_options WHERE Product_id = ?", [
       row[0].productID
     ]);
@@ -306,8 +363,22 @@ const getSingleProduct = async (req, res) => {
          WHERE parent_sku_id = ${row[0].id}
         `);
 
+    const [productVariant] = await connection.query(`
+        select 
+        productVariant.id as id,
+        variant.id as variantId,
+        variant.name as variantName,
+        variantValue.id as variantValueId,
+        variantValue.variant_value as variantValue
+        From inventory_product_variant as productVariant
+        LEFT JOIN inventory_variants as variant ON variant.id = productVariant.variant_id
+        LEFT JOIN inventory_variant_values as variantValue ON variantValue.id = productVariant.variation_value_id 
+         WHERE product_sku_id = ${row[0].id}
+        `);
+
     row[0].productOptions = productOptions;
     row[0].comboProduct = comboProduct;
+    row[0].productVariant = productVariant;
 
     connection.release();
 
@@ -541,4 +612,4 @@ const getAllSku = async (req, res) => {
 }
 
 // export
-module.exports = {getAllSku, addProductList, getAllProduct, getSingleProduct, getProductListForComboSelect, updateProductList, deleteProductList, addProductOptions, getProductOptions, addVariantValue};
+module.exports = {getAllSku, addProductList, getAllSkuInList, getAllProduct, getSingleSkuProduct, getProductListForComboSelect, updateProductList, deleteProductList, addProductOptions, getProductOptions, addVariantValue};
