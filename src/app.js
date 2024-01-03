@@ -29,6 +29,7 @@ app.use(express.static('./uploads'));
 
 const absolutePath = path.join(__dirname, 'uploads');
 app.use('/src/uploads', express.static(absolutePath));
+app.use('/product/image', express.static(absolutePath));
 
 app.use("/auth", authRouter);
 app.use("/users", userRouter);

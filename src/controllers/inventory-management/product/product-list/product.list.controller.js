@@ -328,6 +328,7 @@ const getSingleSkuProduct = async (req, res) => {
     product.product_type as productType,
     product.name as productName,
     product.hsn as hsn,
+    (SELECT GROUP_CONCAT(skuImg.name) FROM inventory_product_image as skuImg WHERE sku.id = skuImg.product_id) AS skuImg,
     product.note as note
         FROM inventory_products_sku as sku
         LEFT JOIN inventory_products as product ON sku.product_id = product.id
@@ -342,7 +343,11 @@ const getSingleSkuProduct = async (req, res) => {
     const [productImage] = await connection.query("select * From inventory_product_image WHERE product_id = ?", [
       row[0].productID
     ]);
-    // console.log('productImage', productImage)
+
+    // const [productSKUImage] = await connection.query("select * From inventory_product_image WHERE product_id = ?", [
+    //   id
+    // ]);
+    // console.log('productSKUImage', productSKUImage)
     // console.log('id', productImage)
 
     const [productOptions] = await connection.query("select * From inventory_products_options WHERE Product_id = ?", [
@@ -379,6 +384,8 @@ const getSingleSkuProduct = async (req, res) => {
     row[0].productOptions = productOptions;
     row[0].comboProduct = comboProduct;
     row[0].productVariant = productVariant;
+    row[0].productImage = productImage;
+    // row[0].productSKUImage = productSKUImage;
 
     connection.release();
 
