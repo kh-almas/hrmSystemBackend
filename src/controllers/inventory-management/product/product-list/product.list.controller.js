@@ -1,5 +1,6 @@
 // require
 const getDatabaseConnection = require("../../../../configs/db.config");
+const fs = require('fs');;
 
 const getAllSkuInList = async (req, res) => {
   try {
@@ -407,64 +408,156 @@ const getSingleSkuProduct = async (req, res) => {
   }
 }
 
+const fileDeleteFn = (getFileNameAr) => {
+  getFileNameAr?.map(singleImg => {
+    fs.unlink(`${__dirname}../../../../../uploads/${singleImg}`, (err) => {
+      if (err) throw err;
+      console.log('path/file.txt was deleted');
+    })
+  })
+}
+
 
 // update contact
 const updateProductList = async (req, res) => {
+  const connection = await getDatabaseConnection();
   try {
-    const product = ({
-      unit_id,
-      brand_id,
-      category_id,
-      subcategory_id,
-      model_id,
-      is_raw_material,
-      product_type,
-      name,
-      sku,
-      barcode_type,
-      hsn,
-      length,
-      height,
-      zip_length,
-      flap_length,
-      stitches,
-      fabrics,
-      front_sheet,
-      wall,
-      zipper,
-      alert_quantity,
-      image,
-      purchase_price,
-      selling_price,
-      other_currency_price,
-      tax,
-      note,
-      pc_address,
-    } = req.body);
-    product.user_id = req.decoded.id;
-    product.created_by = req.decoded.email;
-    product.updated_by = req.decoded.email;
-    const { id } = req.params;
+    const productId = req.params.productId;
+    const skuId = req.params.skuId;
+    // console.log('productId', productId);
+    const variant_sku = JSON.parse(req.body?.variant_sku)
+    fileDeleteFn(variant_sku?.[0]?.deletedFileNameArray)
+    // console.log('req.files?.images', req.files?.images)
 
-    const connection = await getDatabaseConnection();
-    const [row] = await connection.query("UPDATE products SET ? WHERE id = ?", [
-      product,
-      id,
-    ]);
-    connection.release();
 
+    let returnItem;
+    const img = req.files?.images;
+    const {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, note, sku, opening_stock_quantity, barcode_type, alert_quantity, weight_unit, purchase_price, selling_price, min_selling_price, tax_type, tax} = req.body;
+    const {product_type} = req.body;
+    const user_id = req.decoded.id;
+
+    const skuCode = generateSkuCode();
+
+    // console.log(p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight);
+
+
+    // await connection.beginTransaction();
+
+    const singleProduct = {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, weight_unit, note}
+    singleProduct.product_type = product_type;
+    singleProduct.created_by = user_id;
+    singleProduct.updated_by = user_id;
+    // console.log('singleProduct', singleProduct);
+    const [singleProductRow] = await connection.query("UPDATE inventory_products SET ? WHERE id = ?", [singleProduct, productId]);
+
+
+    let parent_sku = skuId;
+    if (product_type === 'Single' || product_type === 'Combo' || product_type === 'Service'){
+      const singleProductSKU = {sku, opening_stock_quantity, barcode_type, alert_quantity, purchase_price, selling_price, min_selling_price, tax_type, tax, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, weight_unit};
+      singleProductSKU.created_by = user_id;
+      singleProductSKU.updated_by = user_id;
+
+      // if (singleProductRow?.affectedRows > 0) {
+        singleProductSKU.product_id = productId;
+        const [singleProductSKURow] = await connection.query("UPDATE inventory_products_sku SET ? WHERE id = ? ", [singleProductSKU, skuId]);
+        // parent_sku = singleProductSKURow?.insertId
+      // }
+    }
+    // console.log('singleProductRow', singleProductRow);
+    // console.log('singleProductSKURow', singleProductSKURow);
+
+    // img?.map(async (singleImage) => {
+    //   const finalImgData =  {
+    //     product_id: singleProductRow?.insertId,
+    //     type: 'product',
+    //     name: singleImage?.filename,
+    //   }
+    //   const [singleProductImgRow] = await connection.query("INSERT INTO inventory_product_image SET ?", finalImgData);
+    // })
+
+    const convertObjectToArray = (inputObject) => {
+      return Object.values(inputObject).flatMap(innerObj => Object.values(innerObj));
+    };
+
+    const processedOption = convertObjectToArray(JSON.parse(req.body?.options));
+    const [deleteProductOptionsRow] = await connection.query("DELETE FROM inventory_products_options WHERE Product_id ?", productId);
+    processedOption?.map(async singleOption => {
+      singleOption.product_id = productId;
+      const [productOptionsRow] = await connection.query("INSERT INTO inventory_products_options SET ?", singleOption);
+    })
+
+
+    if(product_type === "Variant"){
+      const productVariantSku = variant_sku;
+
+
+      for (let key in productVariantSku){
+        const {sku, opening_stock_quantity, purchase_price, selling_price, tax } = productVariantSku[key];
+        const skuValueForVariant = {sku, barcode_type, opening_stock_quantity, alert_quantity, purchase_price, selling_price, min_selling_price, tax_type, tax, p_length, p_height, p_width, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, weight_unit}
+
+        skuValueForVariant.product_id = productId;
+        const [singleProductSKURow] = await connection.query("UPDATE inventory_products_sku SET ? WHERE id = ? ", [skuValueForVariant, skuId]);
+
+
+        
+    console.log('singleProductSKURow', singleProductSKURow);
+        const variant = JSON.parse(productVariantSku[key]?.variant);
+        console.log('variant', variant);
+        const [deleteInventoryProductVariantRow] = await connection.query("DELETE FROM inventory_product_variant WHERE Product_id = ? AND product_sku_id = ?", [productId, skuId]);
+        console.log('deleteInventoryProductVariantRow', deleteInventoryProductVariantRow);
+        for (let key in variant){
+          const {value, variant_id} = variant[key];
+          const variantInfo = {variant_id, variation_value_id: value}
+          variantInfo.product_sku_id = skuId;
+          variantInfo.product_id = productId;
+          const [inventoryProductVariantRow] = await connection.query("INSERT INTO inventory_product_variant SET ?", variantInfo);
+        }
+        // const skuImage = productVariantSku[key]?.sku_images;
+
+        // skuImage?.map(async (singleImage) => {
+        //   const finalSkuImgData =  {
+        //     product_id: singleProductRow?.insertId,
+        //     type: 'sku',
+        //     name: singleImage,
+        //   }
+        //   const [singleProductImgRow] = await connection.query("INSERT INTO inventory_product_image SET ?", finalSkuImgData);
+
+        // })
+      }
+    }
+
+    if (product_type === 'Combo') {
+      const [deleteProductCombo] = await connection.query("DELETE FROM inventory_products_combo WHERE parent_sku_id ?", skuId);
+      for (let i = 0; i < req.body?.howManyProduct; i++) {
+        const parent_sku_id = parent_sku;
+        const productSkuId = `product_id_${i}`;
+        const singleQuantity = `quantity_${i}`;
+        const {[singleQuantity]: quantity, [productSkuId]: product_sku_id} = req?.body;
+        const info = {parent_sku_id, quantity, product_sku_id}
+        const [product_combo] = await connection.query("INSERT INTO inventory_products_combo SET ?", info);
+      }
+    }
+
+
+    await connection.commit();
     return res.status(200).json({
       status: "ok",
-      body: { message: "one product list updated", contact: row },
+      body: { message: "one product list added"},
     });
   } catch (err) {
-    console.error(`add product list error: ${err}`);
+    // await connection.rollback();
+    console.error(`update product list error: ${err}`);
 
     return res.status(500).json({
       status: "error",
       body: { message: err || "cannot update product list" },
     });
+  } finally {
+    connection.release();
   }
+
+
+
 };
 
 // update contact

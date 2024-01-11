@@ -23,11 +23,7 @@ companyRouter.get("/:id", [paramsValidation], getCompanyController);
 companyRouter.get("/", getAllCompanyController);
 
 // put
-companyRouter.put(
-  "/:id",
-  [paramsValidation, companyValidation],
-  updateCompanyController
-);
+companyRouter.put("/:id", [paramsValidation, companyValidation], updateCompanyController);
 
 // delete
 companyRouter.delete("/:id", [paramsValidation], removeCompany);

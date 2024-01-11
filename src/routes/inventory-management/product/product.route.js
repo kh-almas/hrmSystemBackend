@@ -1,7 +1,19 @@
 // require
 const express = require("express");
 const userVerify = require("../../../middlewares/auth/user.verify");
-const {getAllSku, getAllSkuInList, addProductList, getAllProduct, getSingleSkuProduct, getProductListForComboSelect, updateProductList, deleteProductList, addProductOptions, getProductOptions, addVariantValue} = require("../../../controllers/inventory-management/product/product-list/product.list.controller");
+const {
+    getAllSku, 
+    getAllSkuInList, 
+    addProductList, 
+    getAllProduct, 
+    updateProductList, 
+    getSingleSkuProduct, 
+    getProductListForComboSelect,
+    deleteProductList, 
+    addProductOptions, 
+    getProductOptions, 
+    addVariantValue
+} = require("../../../controllers/inventory-management/product/product-list/product.list.controller");
 const addProductListValidation = require("../../../validations/inventory-management/product/product-list/add.product.list.validation");
 const paramsValidation = require("../../../validations/shared/params.validation");
 const multer = require('multer');
@@ -83,7 +95,8 @@ const myMiddleware = async (req, res, next) => {
                         const base64Data = base64String.replace(dataUrlRegex, '');
                         const buffer = Buffer.from(base64Data, 'base64');
                         const filename = `custom_image_${Date.now()}_${i}.${imageType}`;
-                        const folderPath = path.join(__dirname, 'uploads');
+                        // const folderPath = path.join(__dirname, 'uploads');
+                        const folderPath = path.join(__dirname, '../../../uploads');
                         const filePath = path.join(folderPath, filename);
                         await fs.mkdir(folderPath, { recursive: true });
                         await fs.writeFile(filePath, buffer);
@@ -105,6 +118,10 @@ const myMiddleware = async (req, res, next) => {
 };
 // post
 productRouter.post("/add", [cpUpload, myMiddleware], addProductList);
+
+// update
+productRouter.put("/update/:productId/:skuId", [cpUpload, myMiddleware], updateProductList);
+// productRouter.put("/update", updateProductList);
 
 productRouter.use((err, req, res, next) => {
     if (err) {
@@ -137,18 +154,10 @@ productRouter.get("/single/sku/:id", getSingleSkuProduct);
 productRouter.get("/sku/list", getAllSkuInList);
 
 // update
-productRouter.put(
-    "/update-product/:id",
-    [paramsValidation, addProductListValidation],
-    updateProductList
-);
+productRouter.put("/update-product/:id",[paramsValidation, addProductListValidation],updateProductList);
 
 // delete
-productRouter.delete(
-    "/delete-product/:id",
-    [paramsValidation],
-    deleteProductList
-);
+productRouter.delete("/delete-product/:id",[paramsValidation],deleteProductList);
 
 
 // post
