@@ -4,7 +4,14 @@ const fs = require('fs');;
 
 const getAllSkuInList = async (req, res) => {
   try {
+    const {type} = req.params;
+    // console.log('type', type);
     const connection = await getDatabaseConnection();
+    let makeQry = '';
+    if (type === 'services') {
+      makeQry = `WHERE product.product_type = 'Service'`
+    }
+
     const [row] = await connection.query(
         `SELECT 
     sku.id as id,
@@ -47,6 +54,7 @@ const getAllSkuInList = async (req, res) => {
         LEFT JOIN inventory_product_brands as brand ON product.brand_id = brand.id
         LEFT JOIN inventory_product_categorys as category ON product.brand_id = category.id
         LEFT JOIN inventory_product_models as model ON product.model_id = model.id
+        ${makeQry}
         `
     );
 
@@ -70,6 +78,7 @@ const getAllSkuInList = async (req, res) => {
     });
   }
 }
+// dont use
 const getAllProduct = async (req, res) => {
   try {
     const connection = await getDatabaseConnection();
@@ -422,32 +431,42 @@ const fileDeleteFn = (getFileNameAr) => {
 const updateProductList = async (req, res) => {
   const connection = await getDatabaseConnection();
   try {
+    await connection.beginTransaction();
+
     const productId = req.params.productId;
     const skuId = req.params.skuId;
-    // console.log('productId', productId);
     const variant_sku = JSON.parse(req.body?.variant_sku)
-    fileDeleteFn(variant_sku?.[0]?.deletedFileNameArray)
-    // console.log('req.files?.images', req.files?.images)
+    if (req.body?.variant_sku) {
+      const deletedImageFromSKU = variant_sku?.[0]?.deletedFileNameArray;
+      fileDeleteFn(deletedImageFromSKU);
+      if (deletedImageFromSKU) {
+          deletedImageFromSKU?.map(async (singleProductImage) => {
+            const [result] = await connection.query("DELETE FROM inventory_product_image WHERE name = ? and type = ?", [singleProductImage, 'sku']);
+          })
+        }
+    }
 
-
+    if (req.body?.deletedProductPhotos) {
+      const deletedProductPhotos = JSON.parse(req.body?.deletedProductPhotos)
+      fileDeleteFn(deletedProductPhotos);
+      deletedProductPhotos?.map(async (singleProductImage) => {
+        const [result] = await connection.query("DELETE FROM inventory_product_image WHERE name = ? and type = ?", [singleProductImage, 'product']);
+      })
+    }
+ 
     let returnItem;
     const img = req.files?.images;
+    console.log('img', img);
     const {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, note, sku, opening_stock_quantity, barcode_type, alert_quantity, weight_unit, purchase_price, selling_price, min_selling_price, tax_type, tax} = req.body;
     const {product_type} = req.body;
     const user_id = req.decoded.id;
 
     const skuCode = generateSkuCode();
 
-    // console.log(p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight);
-
-
-    // await connection.beginTransaction();
-
     const singleProduct = {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, weight_unit, note}
     singleProduct.product_type = product_type;
     singleProduct.created_by = user_id;
     singleProduct.updated_by = user_id;
-    // console.log('singleProduct', singleProduct);
     const [singleProductRow] = await connection.query("UPDATE inventory_products SET ? WHERE id = ?", [singleProduct, productId]);
 
 
@@ -457,30 +476,29 @@ const updateProductList = async (req, res) => {
       singleProductSKU.created_by = user_id;
       singleProductSKU.updated_by = user_id;
 
-      // if (singleProductRow?.affectedRows > 0) {
-        singleProductSKU.product_id = productId;
-        const [singleProductSKURow] = await connection.query("UPDATE inventory_products_sku SET ? WHERE id = ? ", [singleProductSKU, skuId]);
-        // parent_sku = singleProductSKURow?.insertId
-      // }
+      singleProductSKU.product_id = productId;
+      const [singleProductSKURow] = await connection.query("UPDATE inventory_products_sku SET ? WHERE id = ? ", [singleProductSKU, skuId]);
+        
     }
-    // console.log('singleProductRow', singleProductRow);
-    // console.log('singleProductSKURow', singleProductSKURow);
 
-    // img?.map(async (singleImage) => {
-    //   const finalImgData =  {
-    //     product_id: singleProductRow?.insertId,
-    //     type: 'product',
-    //     name: singleImage?.filename,
-    //   }
-    //   const [singleProductImgRow] = await connection.query("INSERT INTO inventory_product_image SET ?", finalImgData);
-    // })
+    img?.map(async (singleImage) => {
+      const finalImgData =  {
+        product_id: productId,
+        type: 'product',
+        name: singleImage?.filename,
+      }
+      console.log('finalImgData',finalImgData);
+      const [singleProductImgRow] = await connection.query("INSERT INTO inventory_product_image SET ?", finalImgData);
+      console.log('singleProductImgRow', singleProductImgRow);
+    })
 
     const convertObjectToArray = (inputObject) => {
       return Object.values(inputObject).flatMap(innerObj => Object.values(innerObj));
     };
 
     const processedOption = convertObjectToArray(JSON.parse(req.body?.options));
-    const [deleteProductOptionsRow] = await connection.query("DELETE FROM inventory_products_options WHERE Product_id ?", productId);
+    const [deleteProductOptionsRow] = await connection.query("DELETE FROM inventory_products_options WHERE Product_id = ?", [productId]);
+
     processedOption?.map(async singleOption => {
       singleOption.product_id = productId;
       const [productOptionsRow] = await connection.query("INSERT INTO inventory_products_options SET ?", singleOption);
@@ -498,13 +516,8 @@ const updateProductList = async (req, res) => {
         skuValueForVariant.product_id = productId;
         const [singleProductSKURow] = await connection.query("UPDATE inventory_products_sku SET ? WHERE id = ? ", [skuValueForVariant, skuId]);
 
-
-        
-    console.log('singleProductSKURow', singleProductSKURow);
         const variant = JSON.parse(productVariantSku[key]?.variant);
-        console.log('variant', variant);
         const [deleteInventoryProductVariantRow] = await connection.query("DELETE FROM inventory_product_variant WHERE Product_id = ? AND product_sku_id = ?", [productId, skuId]);
-        console.log('deleteInventoryProductVariantRow', deleteInventoryProductVariantRow);
         for (let key in variant){
           const {value, variant_id} = variant[key];
           const variantInfo = {variant_id, variation_value_id: value}
@@ -512,22 +525,22 @@ const updateProductList = async (req, res) => {
           variantInfo.product_id = productId;
           const [inventoryProductVariantRow] = await connection.query("INSERT INTO inventory_product_variant SET ?", variantInfo);
         }
-        // const skuImage = productVariantSku[key]?.sku_images;
 
-        // skuImage?.map(async (singleImage) => {
-        //   const finalSkuImgData =  {
-        //     product_id: singleProductRow?.insertId,
-        //     type: 'sku',
-        //     name: singleImage,
-        //   }
-        //   const [singleProductImgRow] = await connection.query("INSERT INTO inventory_product_image SET ?", finalSkuImgData);
-
-        // })
+        const skuImage = productVariantSku[key]?.sku_images;
+        skuImage?.map(async (singleImage) => {
+          const finalSkuImgData =  {
+            product_id: skuId,
+            type: 'sku',
+            name: singleImage,
+          }
+          const [singleProductImgRow] = await connection.query("INSERT INTO inventory_product_image SET ?", finalSkuImgData);
+        })
       }
     }
 
     if (product_type === 'Combo') {
-      const [deleteProductCombo] = await connection.query("DELETE FROM inventory_products_combo WHERE parent_sku_id ?", skuId);
+      const [deleteProductCombos] = await connection.query("DELETE FROM inventory_products_combo WHERE parent_sku_id = ?", [skuId]);
+
       for (let i = 0; i < req.body?.howManyProduct; i++) {
         const parent_sku_id = parent_sku;
         const productSkuId = `product_id_${i}`;
@@ -545,7 +558,7 @@ const updateProductList = async (req, res) => {
       body: { message: "one product list added"},
     });
   } catch (err) {
-    // await connection.rollback();
+    await connection.rollback();
     console.error(`update product list error: ${err}`);
 
     return res.status(500).json({
@@ -555,9 +568,6 @@ const updateProductList = async (req, res) => {
   } finally {
     connection.release();
   }
-
-
-
 };
 
 // update contact
@@ -566,22 +576,44 @@ const deleteProductList = async (req, res) => {
     const { id } = req.params;
 
     const connection = await getDatabaseConnection();
-    const [row] = await connection.query("DELETE FROM products WHERE id = ?", [
-      id,
-    ]);
+    await connection.beginTransaction();
+    const [row] = await connection.query(`
+      SELECT product_id as productId,
+      product.product_type as productType
+      FROM inventory_products_sku as sku 
+      LEFT JOIN inventory_products as product ON product.id = sku.product_id
+      WHERE sku.id = ${id}`);
+
+    const productId = row[0].productId;
+    const productType = row[0].productType;
+    const skuId = id;
+    const [deleteProductCombo] = await connection.query("DELETE FROM inventory_products_combo WHERE parent_sku_id = ?", [skuId]);
+    const [deleteProductOption] = await connection.query("DELETE FROM inventory_products_options WHERE Product_id = ?", [productId]);
+    const [deleteProductVariation] = await connection.query("DELETE FROM inventory_product_variant WHERE Product_id = ? and product_sku_id", [productId, skuId]);
+
+    
+    const [deleteProductImage] = await connection.query("SELECT * FROM inventory_product_image WHERE product_id = ? and type = ?", [productId, 'product']);
+    const [deleteSkuImage] = await connection.query("SELECT * FROM inventory_product_image WHERE product_id = ? and type = ?", [skuId, 'sku']);
+
     connection.release();
+
+    console.log('row', productId, productType);
+    await connection.commit();
 
     return res.status(200).json({
       status: "ok",
-      body: { message: "one product deleted", contact: row },
+      body: { message: "one product deleted", contact: 'row' },
     });
   } catch (err) {
+    await connection.rollback();
     console.error(`delete product error: ${err}`);
 
     return res.status(500).json({
       status: "error",
       body: { message: err || "cannot delete product" },
     });
+  } finally {
+    connection.release();
   }
 };
 

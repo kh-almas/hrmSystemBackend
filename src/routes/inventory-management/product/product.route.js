@@ -151,13 +151,13 @@ productRouter.get("/list/combo/select", getProductListForComboSelect);
 productRouter.get("/single/sku/:id", getSingleSkuProduct);
 
 // get
-productRouter.get("/sku/list", getAllSkuInList);
+productRouter.get("/sku/list/:type", getAllSkuInList);
 
 // update
 productRouter.put("/update-product/:id",[paramsValidation, addProductListValidation],updateProductList);
 
 // delete
-productRouter.delete("/delete-product/:id",[paramsValidation],deleteProductList);
+productRouter.delete("/delete/:id",[paramsValidation],deleteProductList);
 
 
 // post
