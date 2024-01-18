@@ -8,6 +8,7 @@ const roleRouter = require("./routes/user/role.route");
 const authRouter = require("./routes/auth/auth.route");
 const contactRouter = require("./routes/inventory-management/contact/contact.route");
 const productsRouter = require("./routes/inventory-management/product/product.route");
+const productSettingsRouter = require("./routes/inventory-management/product-settings/product.settings.route");
 const hrmSystemRouter = require("./routes/hrm-system/hrm.system.route");
 const fileUploadRouter = require("./file-upload/file.upload");
 const variantRouter = require('./routes/inventory-management/variant/variant.route');
@@ -37,9 +38,11 @@ app.use("/roles", roleRouter);
 app.use("/hrm-system", hrmSystemRouter);
 app.use("/upload-files", fileUploadRouter);
 
-// resource
+// resource controller
 app.use("/inventory-management/contacts", contactRouter);
 app.use("/inventory-management/products", productsRouter);
+app.use("/inventory-management/products/settings", productSettingsRouter);
+// app.use("/inventory-management/branch/products/initialization", branchProductInitializationRoute);
 app.use("/inventory-management/variant", variantRouter);
 app.use("/inventory-management/unit-type", unitTypeRouter);
 app.use("/inventory-management/model", modalRouter);
