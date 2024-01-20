@@ -11,7 +11,7 @@ const brandProductInitializationRouter = express.Router();
 brandProductInitializationRouter.use(userVerify);
 
 // get all
-brandProductInitializationRouter.get("/", getBrandProductInitialization);
+brandProductInitializationRouter.get("/:id", getBrandProductInitialization);
 
 // update
 brandProductInitializationRouter.put("/update/:id", updateBrandProductInitialization);

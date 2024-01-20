@@ -20,6 +20,7 @@ const unitTypeRouter = require("./routes/inventory-management/unitType/unit.type
 const modalRouter = require("./routes/inventory-management/model/modal.route");
 const brandRouter = require("./routes/inventory-management/brand/brand.route");
 const categoryRouter = require("./routes/inventory-management/category/category.route");
+const brandProductInitializationRouter = require("./routes/inventory-management/branch-product-initialization/brand.product.initialization.route");
 
 // use
 app.use(cors());
@@ -42,7 +43,7 @@ app.use("/upload-files", fileUploadRouter);
 app.use("/inventory-management/contacts", contactRouter);
 app.use("/inventory-management/products", productsRouter);
 app.use("/inventory-management/products/settings", productSettingsRouter);
-// app.use("/inventory-management/branch/products/initialization", branchProductInitializationRoute);
+app.use("/inventory-management/branch/products/initialization", brandProductInitializationRouter);
 app.use("/inventory-management/variant", variantRouter);
 app.use("/inventory-management/unit-type", unitTypeRouter);
 app.use("/inventory-management/model", modalRouter);
