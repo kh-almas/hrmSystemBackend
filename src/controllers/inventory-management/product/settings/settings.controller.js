@@ -9,7 +9,6 @@ const getProductSettings = async (req, res) => {
         const [row] = await connection.query(
             `SELECT * FROM inventory_settings`
         );
-        console.log(row);
 
         connection.release();
 
