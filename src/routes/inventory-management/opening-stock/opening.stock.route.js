@@ -4,7 +4,7 @@ const userVerify = require("../../../middlewares/auth/user.verify");
 const paramsValidation = require("../../../validations/shared/params.validation");
 const { addModel, getModel, updateModel, deleteModel } = require('../../../controllers/inventory-management/product/model/model.controller');
 const modelValidation = require("../../../validations/inventory-management/product/model/model.validation");
-const {addOpeningStock} = require("../../../controllers/inventory-management/inventory/opening-stock/opening.stock.controller");
+const {addOpeningStock, getAllOpeningStock} = require("../../../controllers/inventory-management/inventory/opening-stock/opening.stock.controller");
 const openingStockValidation = require("../../../validations/inventory-management/inventory/opening.stock.validation");
 
 // router
@@ -17,13 +17,13 @@ openingStockRouter.use(userVerify);
 openingStockRouter.post("/add", [openingStockValidation], addOpeningStock);
 
 // get all
-openingStockRouter.get("/all", getModel);
+openingStockRouter.get("/", getAllOpeningStock);
 
 // update
-openingStockRouter.put("/update/:id", [paramsValidation, modelValidation], updateModel);
+// openingStockRouter.put("/update/:id", [paramsValidation, modelValidation], updateModel);
 
 // delete
-openingStockRouter.delete("/delete/:id", [paramsValidation], deleteModel);
+// openingStockRouter.delete("/delete/:id", [paramsValidation], deleteModel);
 
 // export
 module.exports = openingStockRouter;

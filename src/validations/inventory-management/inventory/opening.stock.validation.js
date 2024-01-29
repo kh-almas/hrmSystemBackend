@@ -3,22 +3,24 @@ const Joi = require("joi");
 
 // schema
 const ValidationSchema = Joi.object({
-    branch: Joi.number().required(),
-    sku: Joi.number().required(),
+
+    branch_id: Joi.number().required(),
+    sku_id: Joi.number().required(),
     batch_no: Joi.string().required(),
     date: Joi.date().required(),
     qty: Joi.number().required(),
     purchase_price: Joi.number().required(),
-    sales_price: Joi.number().required(),
+    selling_price: Joi.number().required(),
     total_discount: Joi.number().required(),
 });
 
 // add model validation
 const openingStockValidation = async (req, res, next) => {
     try {
-        const {branch, sku, batch_no, date, qty, purchase_price, sales_price, total_discount} = req.body
-        const obj = {branch, sku, batch_no, date, qty, purchase_price, sales_price, total_discount};
+        const {branch_id, sku_id, batch_no, date, qty, purchase_price, selling_price, total_discount} = req.body
+        const obj = {branch_id, sku_id, batch_no, date, qty, purchase_price, selling_price, total_discount};
 
+        console.log('skjdfglk', obj)
         await ValidationSchema.validateAsync(obj);
 
         next();
