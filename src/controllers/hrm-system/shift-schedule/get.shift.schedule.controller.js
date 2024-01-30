@@ -66,8 +66,6 @@ FROM hrm_shift_schedule
         data: row,
     };
 
-
-    // console.log(result);
     connection.release();
     return res.status(200).json({
         status: "ok",

@@ -64,8 +64,6 @@ fileUploadRouter.use(userVerify);
 
 // file upload route
 fileUploadRouter.post("/", [cpUpload], function (req, res, next) {
-  // console.log(req);
-
   return res.status(200).json({
     status: "ok",
     body: {

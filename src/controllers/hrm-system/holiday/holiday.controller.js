@@ -15,10 +15,8 @@ const postHolidayController = async (req, res) => {
       holiday
     );
 
-    // console.log(req.body)
     connection.release();
 
-    // console.log(`post holiday: ${row}`);
 
     res.status(200).json({
       status: "post holiday",
@@ -58,11 +56,8 @@ const getAllHolidayController = async (req, res) => {
     );
 
     // row.holiday_group = holiday_group_value[0]?.count_holiday_group;
-    // console.log(row);
 
     connection.release();
-
-    // console.log(holiday_group);
 
     res.status(200).json({
       status: "get all holidays",
@@ -93,8 +88,6 @@ const getHolidayController = async (req, res) => {
     );
     connection.release();
 
-    // console.log(`get holiday: ${row}`);
-
     res.status(200).json({
       status: "get holiday",
       body: {
@@ -117,7 +110,6 @@ const putHolidayController = async (req, res) => {
   try {
     const { id } = req.params;
     const { title, date, status } = req.body;
-    // console.log(id)
     const holiday = { title, date, status };
     holiday.updated_by = req.decoded.id;
     holiday.created_by = req.decoded.id;
@@ -130,15 +122,12 @@ const putHolidayController = async (req, res) => {
       `DELETE FROM hrm_holiday WHERE holiday_group = ?`,
       id
     );
-    // console.log(deleteRow);
 
     const [row] = await connection.query(
         `INSERT INTO hrm_holiday SET ?`,
         holiday
     );
     connection.release();
-
-    // console.log(`put holiday: ${row}`);
 
     res.status(200).json({
       status: "put holiday",
@@ -164,8 +153,6 @@ const deleteHolidayController = async (req, res) => {
       [id]
     );
     connection.release();
-
-    // console.log(`delete holiday: ${row}`);
 
     res.status(200).json({
       status: "delete holiday",

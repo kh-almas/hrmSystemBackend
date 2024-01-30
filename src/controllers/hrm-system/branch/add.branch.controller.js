@@ -12,7 +12,6 @@ const addBranchController = async (req, res) => {
     const [row] = await connection.query(`INSERT INTO hrm_branch SET ?`, data);
     connection.release();
 
-    // console.log(row);
     return res.status(200).json({
       status: "ok",
       body: {

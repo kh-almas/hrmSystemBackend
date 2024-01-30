@@ -80,7 +80,6 @@ const addEmployeeController = async (req, res) => {
         for (let i = 0; i < allContact.length; i++) {
           allContact[i].employee_id = row?.insertId;
         }
-        console.log("one field", allContact);
 
         for (const data of allContact) {
           // const contactInformationResult =

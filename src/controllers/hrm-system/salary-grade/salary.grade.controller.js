@@ -17,7 +17,6 @@ const getSalaryGradeController = async (req, res) => {
 
         connection.release();
 
-        // console.log(row);
         return res.status(200).json({
             status: "ok",
             body: {
@@ -54,7 +53,6 @@ const postSalaryGradeController = async (req, res) => {
         );
         connection.release();
 
-        // console.log(row);
         return res.status(200).json({
             status: "ok",
             body: { message: `one salary grade added`, data: row },

@@ -12,8 +12,6 @@ const addOpeningStock = async (req, res) => {
         pricingObj.created_by = req.decoded.id;
         pricingObj.updated_by = req.decoded.id;
 
-        // console.log('obj', req.decoded)
-
         const connection = await getDatabaseConnection();
         const [stockRow] = await connection.query(
             "INSERT INTO inventory_opening_stock SET ?",
@@ -47,6 +45,7 @@ const getAllOpeningStock = async (req, res) => {
         const connection = await getDatabaseConnection();
         const [row] = await connection.query(
             `SELECT 
+            ios.id as id,
             ios.date as date_s_g,
             branch.name as name_s,
             product.name as product_s,
@@ -62,22 +61,21 @@ const getAllOpeningStock = async (req, res) => {
         );
         connection.release();
 
-        if (!row.length) throw "no brands found";
-        // console.log('jaf', row)
+        // if (!row.length) throw "no opening stock found";
 
         return res.status(200).json({
             status: "ok",
             body: {
-                message: "get all brands`",
+                message: "get all opening stock`",
                 data: row,
             },
         });
     } catch (err) {
-        console.error(`get brand error: ${err}`);
+        console.error(`get opening stock error: ${err}`);
 
         return res.status(500).json({
             status: "error",
-            body: { message: err || "cannot get brand" },
+            body: { message: err || "cannot get opening stock" },
         });
     }
 };
@@ -110,20 +108,24 @@ const updateBrand = async (req, res) => {
     }
 };
 
-const deleteBrand = async (req, res) => {
+const deleteOpeningStock = async (req, res) => {
     try {
-        const { id } = req.params;
+        const { batchNo } = req.params;
 
         const connection = await getDatabaseConnection();
-        const [row] = await connection.query(
-            "DELETE FROM inventory_product_brands WHERE id = ?",
-            [id]
+        const [openingStock] = await connection.query(
+            "DELETE FROM inventory_opening_stock WHERE batch_no = ?",
+            [batchNo]
+        );
+        const [pricing] = await connection.query(
+            "DELETE FROM inventory_product_pricing WHERE batch_no = ?",
+            [batchNo]
         );
         connection.release();
 
         return res.status(200).json({
             status: "ok",
-            body: { message: "one brand deleted", contact: row },
+            body: { message: "one brand deleted", contact: 'row' },
         });
     } catch (err) {
         console.error(`delete brand error: ${err}`);
@@ -135,4 +137,4 @@ const deleteBrand = async (req, res) => {
     }
 };
 
-module.exports = {addOpeningStock, getAllOpeningStock};
+module.exports = {addOpeningStock, getAllOpeningStock, deleteOpeningStock};

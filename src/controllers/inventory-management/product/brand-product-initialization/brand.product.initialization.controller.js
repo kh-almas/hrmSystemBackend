@@ -7,12 +7,10 @@ const getBrandProductInitialization = async (req, res) => {
 
         if (id)
         {
-            console.log(id ,' id')
             const connection = await getDatabaseConnection();
             const [row] = await connection.query(
                 `SELECT product_id FROM inventory_product_inetialization WHERE branch_id = ${id}`
             );
-            console.log(row);
 
             connection.release();
 
@@ -54,11 +52,9 @@ const updateBrandProductInitialization = async (req, res) => {
         const data  = req.body;
         const { id } = req.params;
 
-        // console.log('id', data);
         const connection = await getDatabaseConnection();
         data?.map(async singleData => {
             const makeData = {branch_id: id, product_id: singleData?.id}
-            console.log('makeData' , makeData);
             const [row] = await connection.query(
                 "INSERT INTO inventory_product_inetialization SET ?",
                 [makeData]

@@ -4,7 +4,6 @@ const getDatabaseConnection = require("../../../configs/db.config");
 
 const csvAttendanceController = async (req, res) => {
   try {
-      console.log(req.file);
     fs.createReadStream(req?.file?.path)
       .pipe(csv())
       .on("data", async (data) => {
@@ -34,13 +33,9 @@ const csvAttendanceController = async (req, res) => {
       .on("end", async () => {
         fs.unlink(req?.file?.path, (err) => {
           if (err) {
-            console.error("Error deleting the file:", err);
           } else {
-            console.log("File deleted successfully");
           }
         });
-
-        console.log(`csv file imported`);
 
         return res.status(200).json({
           status: "ok",

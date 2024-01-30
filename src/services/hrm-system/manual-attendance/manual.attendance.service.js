@@ -44,8 +44,6 @@ const manualAttendanceService = async (shift_id, in_time, out_time) => {
     let early_out = null;
     let over_time = null;
 
-    // console.log(moment.duration(late_time).asSeconds());
-
     if (
       startTime.diff(inTime, "seconds") +
         moment.duration(late_time).asSeconds() <
@@ -65,7 +63,6 @@ const manualAttendanceService = async (shift_id, in_time, out_time) => {
 
     return { late, early_out, over_time };
   } catch (err) {
-    console.log(`time conversion error: ${err}`);
   }
 };
 

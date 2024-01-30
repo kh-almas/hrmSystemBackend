@@ -7,7 +7,6 @@ const getRoleController = async (req, res) => {
     const totalItem = item === "" ? 10 : item;
     const skip =
       page === "" || page === "1" ? 0 : (parseInt(page) - 1) * totalItem;
-    // console.log(page, item)
     const data = [
       "role.id",
       "role.name",
@@ -23,7 +22,6 @@ const getRoleController = async (req, res) => {
       "update_role.email as u_email",
     ];
 
-    console.log("search:", search);
     const connection = await getDatabaseConnection();
     let roles = await connection.query(
       `SELECT role.id, role.name, role.unique_id, role.read_permission, role.insert_permission, role.update_permission, role.delete_permission, role.status, role.created_by, role.updated_by, create_role.email as c_email, update_role.email as u_email 
@@ -53,7 +51,6 @@ const getRoleController = async (req, res) => {
 
     connection.release();
 
-    // console.log(roles);
     return res.status(200).json({
       status: "ok",
       body: result,
@@ -85,7 +82,6 @@ const postRoleController = async (req, res) => {
     const result = await connection.query(`INSERT INTO roles SET ?`, data);
     connection.release();
 
-    console.log(result[0]);
     return res.status(200).json({
       status: "ok",
       body: result[0],
@@ -123,7 +119,6 @@ const getSingleRoleController = async (req, res) => {
     );
     connection.release();
 
-    console.log(result[0]);
     return res.status(200).json({
       status: "ok",
       body: result[0],
@@ -160,7 +155,6 @@ const updateRoleController = async (req, res) => {
   ]);
   connection.release();
 
-  console.log(result[0]);
   return res.status(200).json({
     status: "ok",
     body: result[0],
@@ -177,7 +171,6 @@ const deleteRoleController = async (req, res) => {
     ]);
     connection.release();
 
-    console.log(result[0]);
     return res.status(200).json({
       status: "ok",
       body: result[0],

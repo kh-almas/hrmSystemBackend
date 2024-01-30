@@ -20,7 +20,6 @@ const openingStockValidation = async (req, res, next) => {
         const {branch_id, sku_id, batch_no, date, qty, purchase_price, selling_price, total_discount} = req.body
         const obj = {branch_id, sku_id, batch_no, date, qty, purchase_price, selling_price, total_discount};
 
-        console.log('skjdfglk', obj)
         await ValidationSchema.validateAsync(obj);
 
         next();

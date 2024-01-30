@@ -89,8 +89,6 @@ const getAllBranchController = async (req, res) => {
 
     connection.release();
 
-    // console.log(result);
-
     return res.status(200).json({
       status: "ok",
       body: { message: `get all branches`, data: result },

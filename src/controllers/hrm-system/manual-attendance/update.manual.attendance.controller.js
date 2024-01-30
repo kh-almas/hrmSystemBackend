@@ -26,7 +26,6 @@ const updateManualAttendanceController = async (req, res) => {
     // const [check] = await connection.query(
     //     `SELECT * FROM hrm_manual_attendance WHERE employee_id = '${employee_id}' && date = '${date}'`
     // );
-    // console.log(check)
 
     // if(check?.length == 0){
       const [row] = await connection.query(

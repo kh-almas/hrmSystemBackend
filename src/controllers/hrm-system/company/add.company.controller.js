@@ -24,9 +24,6 @@ const addCompanyController = async (req, res) => {
     const connection = await getDatabaseConnection();
     const [row] = await connection.query(`INSERT INTO hrm_company SET ?`, data);
     connection.release();
-    // console.log(row)
-
-    // console.log(row);
     return res.status(200).json({
       status: "ok",
       body: {

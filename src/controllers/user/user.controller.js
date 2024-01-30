@@ -19,8 +19,6 @@ const postUser = async (req, res) => {
       password: password
     }
 
-
-    // console.log(user[0].email);
     const [row] = await connection.query(
       "SELECT * FROM users WHERE email = ?",
       [user[0].email]
@@ -52,7 +50,6 @@ const postUser = async (req, res) => {
           const [row] = await connection.query("INSERT INTO users SET ?", data);
           connection.release();
 
-          console.log(`user post: ${row}`);
 
           res.status(200).json({
             status: "ok",
@@ -87,7 +84,7 @@ const getAllUser = async (req, res) => {
     const [row] = await connection.query(
       `SELECT ${columns.join(",")} FROM users`
     );
-    // console.log(row);
+
     connection.release();
 
     return res
@@ -113,7 +110,6 @@ const deleteUserController = async (req, res) => {
     ]);
     connection.release();
 
-    console.log(result[0]);
     return res.status(200).json({
       status: "ok",
       body: result[0],

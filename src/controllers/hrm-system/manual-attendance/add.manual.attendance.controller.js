@@ -9,8 +9,6 @@ const addManualAttendanceController = async (req, res) => {
     const { organization_id, company_id, branch_id, device_id, attendance_type = 2, employee_id, shift_id, date, in_time, out_time, day_type, status } = req.body;
     const data = {organization_id, company_id, branch_id, device_id, attendance_type, employee_id, shift_id, date, in_time, out_time, day_type, status,};
 
-    // console.log("data2", data);
-
     const { late, early_out, over_time } = await manualAttendanceService(
       req.body.shift_id,
       req.body.in_time,
@@ -20,8 +18,6 @@ const addManualAttendanceController = async (req, res) => {
     data.early_out = early_out;
     data.over_time = over_time;
     data.created_by = req?.decoded?.id;
-
-    // console.log("data1", data);
 
 
     const connection = await getDatabaseConnection();
@@ -46,7 +42,6 @@ const addManualAttendanceController = async (req, res) => {
       });
     }else
     {
-      console.log('check', 'check')
       return res.status(409).json({
         status: "ok",
         body: {

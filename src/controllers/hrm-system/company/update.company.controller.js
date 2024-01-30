@@ -29,8 +29,6 @@ const updateCompanyController = async (req, res) => {
       [data, id]
     );
     connection.release();
-
-    // console.log(row);
     return res.status(200).json({
       status: "ok",
       body: {

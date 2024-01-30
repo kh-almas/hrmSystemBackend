@@ -5,9 +5,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="383d658f-521e-4f2d-8766-447043a701dc" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/auth/login.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/auth/login.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/hrm-system/attendance/csv.attendance.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/hrm-system/attendance/csv.attendance.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/hrm-system/branch/add.branch.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/hrm-system/branch/add.branch.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/hrm-system/branch/get.branch.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/hrm-system/branch/get.branch.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/hrm-system/checkTable/checkTable.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/hrm-system/checkTable/checkTable.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/hrm-system/company/add.company.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/hrm-system/company/add.company.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/hrm-system/company/update.company.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/hrm-system/company/update.company.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/hrm-system/department/get.department.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/hrm-system/department/get.department.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/hrm-system/employee-contact/employee.contact.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/hrm-system/employee-contact/employee.contact.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/hrm-system/employee-grade/employee.grade.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/hrm-system/employee-grade/employee.grade.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/hrm-system/employee/add.employee.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/hrm-system/employee/add.employee.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/hrm-system/employee/get.employee.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/hrm-system/employee/get.employee.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/hrm-system/employee/get.employee.cv.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/hrm-system/employee/get.employee.cv.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/hrm-system/employee/get.employee.image.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/hrm-system/employee/get.employee.image.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/hrm-system/employee/update.employee.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/hrm-system/employee/update.employee.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/hrm-system/holiday/holiday.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/hrm-system/holiday/holiday.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/hrm-system/manual-attendance/add.manual.attendance.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/hrm-system/manual-attendance/add.manual.attendance.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/hrm-system/manual-attendance/csv.manual.attendance.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/hrm-system/manual-attendance/csv.manual.attendance.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/hrm-system/manual-attendance/update.manual.attendance.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/hrm-system/manual-attendance/update.manual.attendance.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/hrm-system/reports/report.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/hrm-system/reports/report.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/hrm-system/salary-grade/salary.grade.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/hrm-system/salary-grade/salary.grade.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/hrm-system/shift-schedule/add.shift.schedule.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/hrm-system/shift-schedule/add.shift.schedule.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/hrm-system/shift-schedule/get.shift.schedule.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/hrm-system/shift-schedule/get.shift.schedule.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/hrm-system/shift/add.shift.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/hrm-system/shift/add.shift.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/hrm-system/shift/get.shift.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/hrm-system/shift/get.shift.controller.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controllers/inventory-management/inventory/opening-stock/opening.stock.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/inventory-management/inventory/opening-stock/opening.stock.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/inventory-management/product/brand-product-initialization/brand.product.initialization.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/inventory-management/product/brand-product-initialization/brand.product.initialization.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/inventory-management/product/product-list/product.list.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/inventory-management/product/product-list/product.list.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/user/role.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/user/role.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/user/user.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/user/user.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/file-upload/file.upload.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/file-upload/file.upload.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes/inventory-management/opening-stock/opening.stock.route.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/inventory-management/opening-stock/opening.stock.route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/hrm-system/manual-attendance/manual.attendance.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/hrm-system/manual-attendance/manual.attendance.service.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/validations/inventory-management/inventory/opening.stock.validation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/validations/inventory-management/inventory/opening.stock.validation.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -57,11 +88,85 @@
       <workItem from="1706360914314" duration="512000" />
       <workItem from="1706518727836" duration="647000" />
       <workItem from="1706520435223" duration="133000" />
-      <workItem from="1706520585246" duration="9529000" />
+      <workItem from="1706520585246" duration="10135000" />
+      <workItem from="1706589158461" duration="223000" />
+      <workItem from="1706590073113" duration="7207000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/controllers/hrm-system/shift/get.shift.controller.js</url>
+          <line>18</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/controllers/user/role.controller.js</url>
+          <line>88</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/controllers/user/role.controller.js</url>
+          <line>55</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/controllers/user/role.controller.js</url>
+          <line>131</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/controllers/user/role.controller.js</url>
+          <line>167</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/controllers/hrm-system/holiday/holiday.controller.js</url>
+          <line>91</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/controllers/hrm-system/holiday/holiday.controller.js</url>
+          <line>157</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/controllers/hrm-system/reports/report.controller.js</url>
+          <line>466</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/controllers/hrm-system/employee/get.employee.image.controller.js</url>
+          <line>28</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/controllers/hrm-system/manual-attendance/update.manual.attendance.controller.js</url>
+          <line>30</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/controllers/inventory-management/product/brand-product-initialization/brand.product.initialization.controller.js</url>
+          <line>18</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

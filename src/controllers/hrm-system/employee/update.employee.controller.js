@@ -3,8 +3,6 @@ const getDatabaseConnection = require("../../../configs/db.config");
 
 // update employee
 const updateEmployeeController = async (req, res) => {
-
-  // console.log('req.body7', req.body)
   const { id } = req.params;
   const {
     branch_id = '',

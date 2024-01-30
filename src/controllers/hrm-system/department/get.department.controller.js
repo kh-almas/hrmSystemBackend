@@ -50,7 +50,6 @@ FROM hrm_department
 
     connection.release();
 
-    // console.log(result)
     return res.status(200).json({
       status: "ok",
       body: {

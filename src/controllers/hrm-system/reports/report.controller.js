@@ -246,8 +246,6 @@ const dateWiseAttendanceReport = async (req, res) => {
       data: sortedData,
     };
 
-    // console.log(result);
-
     return res.status(200).json({
       status: "ok",
       body: {
@@ -267,7 +265,6 @@ const dateWiseAttendanceReport = async (req, res) => {
 
 const employeeWiseAttendanceReport = async (req, res) => {
   const { startdate = "", enddate = "", employee = "" } = req.query;
-  // console.log(startdate, enddate, employee)
   try {
     let que = "";
     if (employee) {
@@ -350,15 +347,12 @@ const summaryReport = async (req, res) => {
       const [employees] = await connection.query(
         `${mainQRY} WHERE department_id = ${department[0][I]?.id}`
       );
-      //   console.log(employees);
       if (employees.length !== 0) {
         const allEmployee = [];
         for (let I = 0; I < employees.length; I++) {
-          //   console.log(employees[I].id);
           const [attendance] = await connection.query(
             `SELECT * FROM hrm_manual_attendance WHERE employee_id = ${employees[I].id}`
           );
-          //   console.log(attendance);
           if (attendance.length !== 0) {
             let totalPresent = 0;
             let totalAbsent = 0;
@@ -389,13 +383,10 @@ const summaryReport = async (req, res) => {
               }
             }
 
-            // console.log(totalPresent, totalAbsent, totalLate, totalEarlyOut);
             const duration = moment.duration(totalOverTime, "seconds");
             const formattedTime = moment
               .utc(duration.asMilliseconds())
               .format("HH:mm:ss");
-            // console.log(formattedTime);
-            // console.log(employees[I]);
             let sin_att = {
               emp_id: employees[I].id,
               emp_name: employees[I].name,
@@ -439,7 +430,6 @@ const summaryReport = async (req, res) => {
 
 const employeeMovementReport = async (req, res) => {
     const { startdate = "", enddate = "", employee = "" } = req.query;
-    console.log(startdate, enddate, employee)
     try {
       let que = "";
       if (employee) {
@@ -472,7 +462,6 @@ const employeeMovementReport = async (req, res) => {
               `SELECT hrm_attnmachinedata.EmpID, hrm_attnmachinedata.AttnType, hrm_attnmachinedata.PunchTime, hrm_attnmachinedata.MachineIP, m_info.MachineNo as M_No
 FROM hrm_attnmachinedata LEFT JOIN hrm_machineinfo as m_info ON m_info.MachineIP = hrm_attnmachinedata.MachineIP where EmpID = ${emp_id} ${dateQue}`
           );
-          // console.log(movement);
 
           if (movement?.length > 0) {
             const processData = {

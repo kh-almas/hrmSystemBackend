@@ -64,7 +64,6 @@ const getAllManualAttendanceControllerForCheck = async (req, res) => {
 
 
 const getAllManualAttendanceControllerForCheckForDropdown = async (req, res) => {
-    console.log(req.params);
     try {
         const mainQRY = `SELECT hrm_manual_attendance.id,
                                 hrm_manual_attendance.date as date_s_g,

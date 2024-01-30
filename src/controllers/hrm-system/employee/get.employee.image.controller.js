@@ -17,13 +17,10 @@ const getEmployeeImageController = async (req, res) => {
     );
     connection.release();
 
-    // console.log(__dirname);
-
     res.setHeader("Content-Type", "image/jpeg");
 
     if (row[0]?.img) {
       const imageFilePath = path.join(imagePath, row[0]?.img);
-      //   console.log(fs.existsSync(imageFilePath));
       if (fs.existsSync(imageFilePath)) {
         res.sendFile(imageFilePath);
       } else {

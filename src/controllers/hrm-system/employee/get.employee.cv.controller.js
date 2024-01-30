@@ -17,13 +17,10 @@ const getEmployeeCvController = async (req, res) => {
     );
     connection.release();
 
-    // console.log(row[0]?.cv);
-
     res.setHeader("Content-Type", "application/pdf");
 
     if (row[0]?.cv) {
       const cvFilePath = path.join(cvPath, row[0]?.cv);
-      //   console.log(fs.existsSync(imageFilePath));
       if (fs.existsSync(cvFilePath)) {
         res.sendFile(cvFilePath);
       } else {

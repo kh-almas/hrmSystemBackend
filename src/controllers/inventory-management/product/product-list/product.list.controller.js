@@ -5,7 +5,6 @@ const fs = require('fs');;
 const getAllSkuInList = async (req, res) => {
   try {
     const {type} = req.params;
-    // console.log('type', type);
     const connection = await getDatabaseConnection();
     let makeQry = '';
     if (type === 'services') {
@@ -357,8 +356,6 @@ const getSingleSkuProduct = async (req, res) => {
     // const [productSKUImage] = await connection.query("select * From inventory_product_image WHERE product_id = ?", [
     //   id
     // ]);
-    // console.log('productSKUImage', productSKUImage)
-    // console.log('id', productImage)
 
     const [productOptions] = await connection.query("select * From inventory_products_options WHERE Product_id = ?", [
       row[0].productID
@@ -421,7 +418,6 @@ const fileDeleteFn = (getFileNameAr) => {
   getFileNameAr?.map(singleImg => {
     fs.unlink(`${__dirname}../../../../../uploads/${singleImg}`, (err) => {
       if (err) throw err;
-      console.log('path/file.txt was deleted');
     })
   })
 }
@@ -456,7 +452,6 @@ const updateProductList = async (req, res) => {
  
     let returnItem;
     const img = req.files?.images;
-    console.log('img', img);
     const {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, note, sku, opening_stock_quantity, barcode_type, alert_quantity, weight_unit, purchase_price, selling_price, min_selling_price, tax_type, tax} = req.body;
     const {product_type} = req.body;
     const user_id = req.decoded.id;
@@ -487,9 +482,7 @@ const updateProductList = async (req, res) => {
         type: 'product',
         name: singleImage?.filename,
       }
-      console.log('finalImgData',finalImgData);
       const [singleProductImgRow] = await connection.query("INSERT INTO inventory_product_image SET ?", finalImgData);
-      console.log('singleProductImgRow', singleProductImgRow);
     })
 
     const convertObjectToArray = (inputObject) => {
@@ -597,7 +590,6 @@ const deleteProductList = async (req, res) => {
 
     connection.release();
 
-    console.log('row', productId, productType);
     await connection.commit();
 
     return res.status(200).json({

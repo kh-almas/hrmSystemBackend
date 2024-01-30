@@ -12,7 +12,6 @@ const getShiftController = async (req, res) => {
       [id]
     );
     connection.release();
-    console.log(row);
 
     return res.status(200).json({
       status: "ok",

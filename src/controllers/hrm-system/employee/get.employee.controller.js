@@ -71,7 +71,6 @@ const getEmployeeController = async (req, res) => {
       data: row[0],
       contact: contact
     }
-    // console.log(result);
     connection.release();
 
     if (!row.length) throw `no employee found of id: ${id}`;
@@ -99,7 +98,6 @@ const getAllEmployeeController = async (req, res) => {
   // const searchData = search ? `${search}%` : '';
   const totalItem = item === "" ? 10 : item;
   const skip = page === "" || page === "1" ? 0 : (parseInt(page) - 1) * totalItem;
-  // console.log(page, item, skip)
   try {
     const connection = await getDatabaseConnection();
     const employee = await connection.query(
@@ -137,7 +135,6 @@ const getAllEmployeeController = async (req, res) => {
       count: count[0][0]?.totalItem,
       data: employee[0]
     }
-    // console.log(result);
     connection.release();
 
     return res.status(200).json({
