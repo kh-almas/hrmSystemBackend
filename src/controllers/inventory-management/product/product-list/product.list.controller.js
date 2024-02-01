@@ -277,8 +277,6 @@ const getProductListForComboSelect = async (req, res) => {
     );
     connection.release();
 
-    if (!row.length) throw "no product list found";
-
     return res.status(200).json({
       status: "ok",
       body: {

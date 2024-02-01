@@ -4,7 +4,7 @@ const userVerify = require("../../../middlewares/auth/user.verify");
 const paramsValidation = require("../../../validations/shared/params.validation");
 const { addModel, getModel, updateModel, deleteModel } = require('../../../controllers/inventory-management/product/model/model.controller');
 const modelValidation = require("../../../validations/inventory-management/product/model/model.validation");
-const {addOpeningStock, getAllOpeningStock, deleteOpeningStock} = require("../../../controllers/inventory-management/inventory/opening-stock/opening.stock.controller");
+const {addOpeningStock, getAllOpeningStock, deleteOpeningStock, updateOpeningStock} = require("../../../controllers/inventory-management/inventory/opening-stock/opening.stock.controller");
 const openingStockValidation = require("../../../validations/inventory-management/inventory/opening.stock.validation");
 
 // router
@@ -20,7 +20,7 @@ openingStockRouter.post("/add", [openingStockValidation], addOpeningStock);
 openingStockRouter.get("/", getAllOpeningStock);
 
 // update
-// openingStockRouter.put("/update/:id", [paramsValidation, modelValidation], updateModel);
+openingStockRouter.put("/update/:batchNo", [openingStockValidation], updateOpeningStock);
 
 // delete
 openingStockRouter.delete("/delete/:batchNo", deleteOpeningStock);
