@@ -7,22 +7,21 @@ const ValidationSchema = Joi.object({
 
     branch_id: Joi.number().required(),
     sku_id: Joi.number().required(),
+    purpose_type: Joi.string().required(),
+    ref_id: Joi.number().required(),
     batch_no: Joi.string().required(),
-    purpose: Joi.string().required(),
-    ref_id: Joi.string().required(),
-    date: Joi.date().required(),
     qty: Joi.number().required(),
+    date: Joi.date().required(),
     purchase_price: Joi.number().required(),
-    selling_price: Joi.number().required(),
-    total_discount: Joi.number().required(),
+    sales_price: Joi.number().required(),
 });
 
 
 // add model validation
 const stockAdjustmentValidation = async (req, res, next) => {
     try {
-        const {branch_id, sku_id, batch_no, date, qty, purchase_price, selling_price, total_discount} = req.body
-        const obj = {branch_id, sku_id, batch_no, purpose , ref_id ,date, qty, purchase_price, selling_price, total_discount};
+        const {branch_id, sku_id, purpose_type, ref_id, batch_no, qty, date, purchase_price, sales_price} = req.body
+        const obj = {branch_id, sku_id, purpose_type, ref_id, batch_no, qty, date, purchase_price, sales_price};
 
         await ValidationSchema.validateAsync(obj);
 

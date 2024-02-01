@@ -4,48 +4,47 @@ const getDatabaseConnection = require("../../../../configs/db.config");
 const addStockAdjustment = async (req, res) => {
   try {
     console.log(req.body);
+    const {branch_id, sku_id, purpose_type, ref_id, batch_no, qty, date, purchase_price, sales_price} = req.body
+    const obj = {branch_id, sku_id, purpose_type, ref_id, batch_no, qty, date, purchase_price, sales_price};
+    obj.created_by = req.decoded.id;
+    obj.updated_by = req.decoded.id;
 
-    // // FROM hrm_branch;
-    const {branch_id, sku_id, batch_no, date, qty, purchase_price, selling_price, total_discount} = req.body
-    // const obj = {branch_id, sku_id, batch_no, date, qty, purchase_price, selling_price, total_discount};
-    // obj.created_by = req.decoded.id;
-    // obj.updated_by = req.decoded.id;
+    const pricingObj = {branch_id, sku_id, batch_no, date, purchase_price, selling_price: sales_price};
+    pricingObj.created_by = req.decoded.id;
+    pricingObj.updated_by = req.decoded.id;
 
-    // const pricingObj = {branch_id, sku_id, batch_no, date, purchase_price, selling_price};
-    // pricingObj.created_by = req.decoded.id;
-    // pricingObj.updated_by = req.decoded.id;
+    const connection = await getDatabaseConnection();
+    const [checkUnique] = await connection.query(
+        `SELECT LPAD(FN_primary_id_opening_stock (${branch_id}, 2), 18, '0') AS Result`
+    );
+    obj.primary_id = checkUnique?.[0]?.Result;
+    pricingObj.primary_id = checkUnique?.[0]?.Result;
 
-    // const connection = await getDatabaseConnection();
-    // const [checkUnique] = await connection.query(
-    //     `SELECT LPAD(FN_primary_id_opening_stock (${branch_id}, 2), 18, '0') AS Result`
-    // );
-    // obj.primary_id = checkUnique?.[0]?.Result;
-    // pricingObj.primary_id = checkUnique?.[0]?.Result;
-
-    // console.log('checkUnique', checkUnique)
-    // const [stockRow] = await connection.query(
-    //     "INSERT INTO inventory_opening_stock SET ?",
-    //     obj
-    // );
-    // const [PricingRow] = await connection.query(
-    //     "INSERT INTO inventory_product_pricing SET ?",
-    //     pricingObj
-    // );
-    // connection.release();
+    console.log('pricingObj', pricingObj)
+    const [adjustmentRow] = await connection.query(
+        "INSERT INTO inventory_product_adjustment SET ?",
+        obj
+    );
+    const [PricingRow] = await connection.query(
+        "INSERT INTO inventory_product_pricing SET ?",
+        pricingObj
+    );
+    connection.release();
 
     return res.status(200).json({
         status: "ok",
         body: {
-            message: "one opening added",
-            brand: 'row',
+            message: "one stock adjustment added",
+            adjustment_table_data: adjustmentRow,
+            pricing_table_data: PricingRow,
         },
     });
   } catch (err) {
-    console.error(`add opening stock error: ${err}`);
+    console.error(`add stock adjustment error: ${err}`);
 
     return res.status(500).json({
       status: "error",
-      body: { message: err || "cannot add opening stock" },
+      body: { message: err || "cannot  stock adjustment stock" },
     });
   }
 };
@@ -55,20 +54,21 @@ const getAllStockAdjustment = async (req, res) => {
     const connection = await getDatabaseConnection();
     const [row] = await connection.query(
       `SELECT 
-            ios.id as id,
-            ios.branch_id as branch_id,
-            ios.sku_id as sku_id,
-            ios.date as date_s_g,
+            ipa.id as id,
+            ipa.branch_id as branch_id,
+            ipa.sku_id as sku_id,
+            ipa.purpose_type as purpose_type_s,
+            ipa.ref_id as ref_id_s,
+            ipa.date as date_s_g,
             branch.name as name_s,
             product.name as product_s,
-            ios.batch_no as batch_s,
-            ios.qty  as quantity_s,
-            ios.purchase_price as purchase_price_s,
-            ios.selling_price as selling_price_s,
-            ios.total_discount as total_discount_s
-             FROM  inventory_opening_stock AS ios
-             LEFT JOIN hrm_branch AS branch ON ios.branch_id = branch.id
-             LEFT JOIN inventory_products_sku AS sku ON ios.sku_id = sku.id
+            ipa.batch_no as batch_s,
+            ipa.qty  as quantity_s,
+            ipa.purchase_price as purchase_price_s,
+            ipa.sales_price as selling_price_s
+             FROM  inventory_product_adjustment AS ipa
+             LEFT JOIN hrm_branch AS branch ON ipa.branch_id = branch.id
+             LEFT JOIN inventory_products_sku AS sku ON ipa.sku_id = sku.id
              LEFT JOIN inventory_products AS product ON sku.product_id = product.id`
     );
     connection.release();
@@ -78,16 +78,16 @@ const getAllStockAdjustment = async (req, res) => {
     return res.status(200).json({
       status: "ok",
       body: {
-        message: "get all opening stock`",
+        message: "get all stock adjustment`",
         data: row,
       },
     });
   } catch (err) {
-    console.error(`get opening stock error: ${err}`);
+    console.error(`get stock adjustment error: ${err}`);
 
     return res.status(500).json({
       status: "error",
-      body: { message: err || "cannot get opening stock" },
+      body: { message: err || "cannot get stock adjustment" },
     });
   }
 };
@@ -213,4 +213,5 @@ const deleteStockAdjustment = async (req, res) => {
 
 module.exports = {
   addStockAdjustment,
+  getAllStockAdjustment,
 };

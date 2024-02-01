@@ -1,0 +1,14 @@
+//get all http://localhost:5000/inventory-management/stock/adjustment/
+//post http://localhost:5000/inventory-management/stock/adjustment/add
+
+{
+  "branch_id": 1,
+  "sku_id": 84,
+  "purpose_type": "damage",
+  "ref_id": 243,
+  "batch_no": "sdfligj5",
+  "qty": 5,
+  "date": "2024-02-01",
+  "purchase_price": 46,
+  "sales_price": 435
+}
