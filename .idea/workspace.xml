@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="383d658f-521e-4f2d-8766-447043a701dc" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/inventory-management/inventory/stock-adjustment/stock.adjustment.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/inventory-management/inventory/stock-adjustment/stock.adjustment.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/inventory/inventory/stockAdjustment.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/inventory/inventory/stockAdjustment.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes/inventory-management/stock-adjustment/stock.adjustment.route.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/inventory-management/stock-adjustment/stock.adjustment.route.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -62,7 +60,7 @@
       <workItem from="1706590073113" duration="7330000" />
       <workItem from="1706675124036" duration="13000" />
       <workItem from="1706675420537" duration="4518000" />
-      <workItem from="1706761131594" duration="11731000" />
+      <workItem from="1706761131594" duration="12421000" />
     </task>
     <servers />
   </component>
