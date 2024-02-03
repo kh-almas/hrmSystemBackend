@@ -1,0 +1,16 @@
+// post http://localhost:5000/inventory-management/stock/reconciliation/add
+// get http://localhost:5000/inventory-management/stock/reconciliation/
+
+{
+  "date": "2024-02-03",
+  "branch_id": 101,
+  "sku_id": 789,
+  "system_stock_qty": 100,
+  "physical_qty": 95,
+  "adjust_qty": 5,
+  "batch_no": "BATCH001",
+  "remarks": "Adjustment due to discrepancies",
+  "audit_by": 2,
+  "approve_status": false,
+  "approve_by": 3
+}
