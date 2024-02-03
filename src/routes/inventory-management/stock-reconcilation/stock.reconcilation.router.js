@@ -1,7 +1,6 @@
 // require
 const express = require("express");
 const userVerify = require("../../../middlewares/auth/user.verify");
-const { addStockAdjustment, getAllStockAdjustment, updateStockAdjustment, deleteStockAdjustment} = require("../../../controllers/inventory-management/inventory/stock-adjustment/stock.adjustment.controller");
 const stockReconciliationValidation = require("../../../validations/inventory-management/inventory/stock.reconcilation.validation");
 const {addStockReconciliation, getAllStockReconciliation, updateStockReconciliation, deleteStockReconciliation} = require("../../../controllers/inventory-management/inventory/stock-reconcilation/stock.reconcilation.controller");
 

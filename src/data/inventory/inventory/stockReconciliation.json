@@ -1,5 +1,7 @@
 // post http://localhost:5000/inventory-management/stock/reconciliation/add
 // get http://localhost:5000/inventory-management/stock/reconciliation/
+// put http://localhost:5000/inventory-management/stock/reconciliation/update/[batchNo]
+// delete http://localhost:5000/inventory-management/stock/reconciliation/delete/[batchNo]
 
 {
   "date": "2024-02-03",

@@ -6,11 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="383d658f-521e-4f2d-8766-447043a701dc" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/inventory-management/inventory/stock-reconcilation/stock.reconcilation.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/inventory-management/inventory/stock-reconcilation/stock.reconcilation.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/inventory/inventory/apiLink.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/inventory/inventory/stockAdjustment.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/inventory/inventory/stockAdjustment.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/inventory/inventory/stockReconciliation.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/inventory/inventory/stockReconciliation.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes/inventory-management/stock-reconcilation/stock.reconcilation.router.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/inventory-management/stock-reconcilation/stock.reconcilation.router.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/validations/inventory-management/inventory/stock.reconcilation.validation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/validations/inventory-management/inventory/stock.reconcilation.validation.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,20 +30,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/hrmSystemFinal/hrmSystemBackend&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "D:/hrmSystemFinal/hrmSystemBackend/src/controllers/inventory-management/inventory/discount",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\hrmSystemFinal\hrmSystemBackend\src\controllers\inventory-management\inventory\discount" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -67,7 +70,7 @@
       <workItem from="1706761131594" duration="12421000" />
       <workItem from="1706790018832" duration="178000" />
       <workItem from="1706935579267" duration="8000" />
-      <workItem from="1706935610268" duration="8840000" />
+      <workItem from="1706935610268" duration="17550000" />
     </task>
     <servers />
   </component>

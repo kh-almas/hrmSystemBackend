@@ -1,0 +1,17 @@
+//post http://localhost:5000/inventory-management/product/discount/add
+// get http://localhost:5000/inventory-management/product/discount/
+// put http://localhost:5000/inventory-management/product/discount/update/[primaryId]
+// delete http://localhost:5000/inventory-management/product/discount/delete/[primaryId]
+
+{
+  "branch_id": 1,
+  "date": "2024-02-03",
+  "sku_id": 103,
+  "purchase_price": 15.00,
+  "selling_price": 20.99,
+  "batch_no": "BATCH789",
+  "discount_type": "Percentage",
+  "discount_percent": 15,
+  "discount_value": 7,
+  "approve_status": "Approved"
+}

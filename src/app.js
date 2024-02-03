@@ -24,6 +24,7 @@ const brandProductInitializationRouter = require("./routes/inventory-management/
 const openingStockRouter = require("./routes/inventory-management/opening-stock/opening.stock.route");
 const stockAdjustmentRouter = require("./routes/inventory-management/stock-adjustment/stock.adjustment.route");
 const stockReconciliationRouter = require("./routes/inventory-management/stock-reconcilation/stock.reconcilation.router");
+const discountRouter = require("./routes/inventory-management/discount/discount.router");
 
 
 
@@ -53,6 +54,7 @@ app.use("/inventory-management/branch/products/initialization", brandProductInit
 app.use("/inventory-management/stock/opening", openingStockRouter);
 app.use("/inventory-management/stock/adjustment", stockAdjustmentRouter);
 app.use("/inventory-management/stock/reconciliation", stockReconciliationRouter);
+app.use("/inventory-management/product/discount", discountRouter);
 app.use("/inventory-management/variant", variantRouter);
 app.use("/inventory-management/unit-type", unitTypeRouter);
 app.use("/inventory-management/model", modalRouter);
