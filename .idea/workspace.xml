@@ -6,7 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="383d658f-521e-4f2d-8766-447043a701dc" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/inventory-management/inventory/stock-reconcilation/stock.reconcilation.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/inventory-management/inventory/stock-reconcilation/stock.reconcilation.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/inventory/inventory/apiLink.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/inventory/inventory/stockAdjustment.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/inventory/inventory/stockAdjustment.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/inventory-management/stock-reconcilation/stock.reconcilation.router.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/inventory-management/stock-reconcilation/stock.reconcilation.router.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/validations/inventory-management/inventory/stock.reconcilation.validation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/validations/inventory-management/inventory/stock.reconcilation.validation.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +67,7 @@
       <workItem from="1706761131594" duration="12421000" />
       <workItem from="1706790018832" duration="178000" />
       <workItem from="1706935579267" duration="8000" />
-      <workItem from="1706935610268" duration="5778000" />
+      <workItem from="1706935610268" duration="8840000" />
     </task>
     <servers />
   </component>

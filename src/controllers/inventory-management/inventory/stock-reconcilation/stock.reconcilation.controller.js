@@ -9,6 +9,11 @@ const addStockReconciliation = async (req, res) => {
         obj.updated_by = req.decoded.id;
 
         const connection = await getDatabaseConnection();
+        const [checkUnique] = await connection.query(
+            `SELECT LPAD(FN_primary_id_opening_stock (${branch_id}, 2), 18, '0') AS Result`
+        );
+        console.log('checkUnique', checkUnique)
+        obj.primary_id = checkUnique?.[0]?.Result;
         const [reconciliationRow] = await connection.query(
             "INSERT INTO inventory_product_reconcilation SET ?",
             obj
@@ -18,7 +23,7 @@ const addStockReconciliation = async (req, res) => {
         return res.status(200).json({
             status: "ok",
             body: {
-                message: "one stock adjustment added",
+                message: "one stock reconciliation added",
                 info: reconciliationRow,
             },
         });
@@ -76,59 +81,46 @@ const getAllStockReconciliation = async (req, res) => {
     }
 };
 
-const updateStockAdjustment = async (req, res) => {
+const updateStockReconciliation = async (req, res) => {
     try {
         const { batchNo } = req.params;
-        const {branch_id, sku_id, purpose_type, ref_id, batch_no, qty, date, purchase_price, sales_price} = req.body
-        const obj = {branch_id, sku_id, purpose_type, ref_id, batch_no, qty, date, purchase_price, sales_price};
+        const {date, branch_id, sku_id, system_stock_qty, physical_qty, adjust_qty, batch_no, remarks, audit_by, approve_status, approve_by} = req.body
+        const obj = {date, branch_id, sku_id, system_stock_qty, physical_qty, adjust_qty, batch_no, remarks, audit_by, approve_status, approve_by};
         obj.created_by = req.decoded.id;
         obj.updated_by = req.decoded.id;
 
-        const pricingObj = {branch_id, sku_id, batch_no, date, purchase_price, selling_price: sales_price};
-        pricingObj.created_by = req.decoded.id;
-        pricingObj.updated_by = req.decoded.id;
-
         const connection = await getDatabaseConnection();
 
-        const [adjustmentRow] = await connection.query(
-            "UPDATE inventory_product_adjustment SET ? WHERE batch_no = ?",
+        const [reconciliationRow] = await connection.query(
+            "UPDATE inventory_product_reconcilation SET ? WHERE batch_no = ?",
             [obj, batchNo]
-        );
-        const [PricingRow] = await connection.query(
-            "UPDATE inventory_product_pricing SET ? WHERE batch_no = ?",
-            [pricingObj, batchNo]
         );
         connection.release();
 
         return res.status(200).json({
             status: "ok",
             body: {
-                message: "one stock adjustment added",
-                adjustment_table_data: adjustmentRow,
-                pricing_table_data: PricingRow,
+                message: "one stock reconciliation update",
+                info: reconciliationRow,
             },
         });
     } catch (err) {
-        console.error(`update stock adjustment error: ${err}`);
+        console.error(`update stock reconciliation error: ${err}`);
 
         return res.status(500).json({
             status: "error",
-            body: { message: err || "cannot update stock adjustment" },
+            body: { message: err || "cannot update stock reconciliation" },
         });
     }
 };
 
-const deleteStockAdjustment = async (req, res) => {
+const deleteStockReconciliation = async (req, res) => {
     try {
         const { batchNo } = req.params;
 
         const connection = await getDatabaseConnection();
         const [adjustmentRow] = await connection.query(
-            "DELETE FROM inventory_product_adjustment WHERE batch_no = ?",
-            [batchNo]
-        );
-        const [PricingRow] = await connection.query(
-            "DELETE FROM inventory_product_pricing WHERE batch_no = ?",
+             "DELETE FROM inventory_product_reconcilation WHERE batch_no = ?",
             [batchNo]
         );
         connection.release();
@@ -136,22 +128,23 @@ const deleteStockAdjustment = async (req, res) => {
         return res.status(200).json({
             status: "ok",
             body: {
-                message: "one stock adjustment deleted",
-                adjustment_table_data: adjustmentRow,
-                pricing_table_data: PricingRow,
+                message: "one stock reconciliation deleted",
+                item: adjustmentRow,
             },
         });
     } catch (err) {
-        console.error(`delete stock adjustment error: ${err}`);
+        console.error(`delete stock reconciliation error: ${err}`);
 
         return res.status(500).json({
             status: "error",
-            body: { message: err || "cannot delete stock adjustment" },
+            body: { message: err || "cannot delete stock reconciliation" },
         });
     }
 };
 
 module.exports = {
     addStockReconciliation,
-    getAllStockReconciliation
+    getAllStockReconciliation,
+    updateStockReconciliation,
+    deleteStockReconciliation
 };

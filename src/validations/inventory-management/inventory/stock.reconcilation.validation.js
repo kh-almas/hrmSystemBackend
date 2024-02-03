@@ -14,15 +14,14 @@ const ValidationSchema = Joi.object({
     remarks: Joi.string().required(),
     audit_by: Joi.number().required(),
     approve_status: Joi.boolean().required(),
-    approve_by: Joi.number().required(),
 });
 
 
 // add model validation
 const stockReconciliationValidation = async (req, res, next) => {
     try {
-        const {date, branch_id, sku_id, system_stock_qty, physical_qty, adjust_qty, batch_no, remarks, audit_by, approve_status, approve_by} = req.body
-        const obj = {date, branch_id, sku_id, system_stock_qty, physical_qty, adjust_qty, batch_no, remarks, audit_by, approve_status, approve_by };
+        const {date, branch_id, sku_id, system_stock_qty, physical_qty, adjust_qty, batch_no, remarks, audit_by, approve_status} = req.body
+        const obj = {date, branch_id, sku_id, system_stock_qty, physical_qty, adjust_qty, batch_no, remarks, audit_by, approve_status};
 
         await ValidationSchema.validateAsync(obj);
 

@@ -3,7 +3,7 @@ const express = require("express");
 const userVerify = require("../../../middlewares/auth/user.verify");
 const { addStockAdjustment, getAllStockAdjustment, updateStockAdjustment, deleteStockAdjustment} = require("../../../controllers/inventory-management/inventory/stock-adjustment/stock.adjustment.controller");
 const stockReconciliationValidation = require("../../../validations/inventory-management/inventory/stock.reconcilation.validation");
-const {addStockReconciliation, getAllStockReconciliation} = require("../../../controllers/inventory-management/inventory/stock-reconcilation/stock.reconcilation.controller");
+const {addStockReconciliation, getAllStockReconciliation, updateStockReconciliation, deleteStockReconciliation} = require("../../../controllers/inventory-management/inventory/stock-reconcilation/stock.reconcilation.controller");
 
 // router
 const stockReconciliationRouter = express.Router();
@@ -13,15 +13,15 @@ stockReconciliationRouter.use(userVerify);
 
 // post
 stockReconciliationRouter.post("/add", [stockReconciliationValidation], addStockReconciliation);
-//
-// // get all
+
+// get all
 stockReconciliationRouter.get("/", getAllStockReconciliation);
-//
-// // // update
-// stockReconciliationRouter.put("/update/:batchNo", [stockAdjustmentValidation], updateStockAdjustment);
-//
-// // // delete
-// stockReconciliationRouter.delete("/delete/:batchNo", deleteStockAdjustment);
+
+// update
+stockReconciliationRouter.put("/update/:batchNo", [stockReconciliationValidation], updateStockReconciliation);
+
+// // delete
+stockReconciliationRouter.delete("/delete/:batchNo", deleteStockReconciliation);
 
 // export
 module.exports = stockReconciliationRouter;
