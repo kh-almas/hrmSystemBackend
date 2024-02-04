@@ -11,7 +11,7 @@ const ValidationSchema = Joi.object({
     selling_price: Joi.number().required(),
     batch_no: Joi.string().required(),
     discount_type: Joi.string().required(),
-    discount_percent: Joi.number().required(),
+    discount_percent: Joi.number(),
     discount_value: Joi.number().required(),
     approve_status: Joi.string().required()
 });
