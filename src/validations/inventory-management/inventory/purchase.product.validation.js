@@ -4,7 +4,6 @@ const Joi = require("joi");
 
 // schema
 const ValidationSchema = Joi.object({
-    product_id: Joi.number().required(),
     sku_id: Joi.number().required(),
     price: Joi.number().required(),
     tax: Joi.number().required(),
@@ -18,8 +17,8 @@ const ValidationSchema = Joi.object({
 // add discount validation
 const purchaseProductValidation = async (req, res, next) => {
     try {
-        const {product_id, sku_id, price, tax, sales_price, other_cost, discount, qty} = req.body
-        const obj = {product_id, sku_id, price, tax, sales_price, other_cost, discount, qty};
+        const {sku_id, price, tax, sales_price, other_cost, discount, qty} = req.body
+        const obj = {sku_id, price, tax, sales_price, other_cost, discount, qty};
 
         await ValidationSchema.validateAsync(obj);
 

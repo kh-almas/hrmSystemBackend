@@ -3,11 +3,6 @@ const getDatabaseConnection = require("../../../../configs/db.config");
 
 const addOpeningStock = async (req, res) => {
     try {
-        // SELECT
-        // LPAD(FN_primary_id_opening_stock (1, 2), 18, '0')
-        // AS Result, FN_primary_id_opening_stock (1, 2) AS ch
-        //
-        // FROM hrm_branch;
         const {branch_id, sku_id, batch_no, date, qty, purchase_price, selling_price, total_discount} = req.body
         const obj = {branch_id, sku_id, batch_no, date, qty, purchase_price, selling_price, total_discount};
         obj.created_by = req.decoded.id;

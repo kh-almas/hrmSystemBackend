@@ -1,0 +1,11 @@
+
+
+{
+  "sku_id": "SKU567",
+  "price": 29.99,
+  "tax": 3.75,
+  "sales_price": 26.24,
+  "other_cost": 2.50,
+  "discount": 5.00,
+  "qty": 15
+}

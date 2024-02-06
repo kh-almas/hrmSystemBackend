@@ -6,8 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="383d658f-521e-4f2d-8766-447043a701dc" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/validations/inventory-management/inventory/discount.validation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/validations/inventory-management/inventory/discount.validation.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/inventory-management/inventory/opening-stock/opening.stock.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/inventory-management/inventory/opening-stock/opening.stock.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/inventory-management/purchase-product/purchase.product.router.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/inventory-management/purchase-product/purchase.product.router.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/validations/inventory-management/inventory/purchase.product.validation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/validations/inventory-management/inventory/purchase.product.validation.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +73,10 @@
       <workItem from="1706935610268" duration="18331000" />
       <workItem from="1707025052057" duration="4302000" />
       <workItem from="1707030976071" duration="1645000" />
-      <workItem from="1707037023267" duration="2538000" />
+      <workItem from="1707037023267" duration="2923000" />
+      <workItem from="1707124167369" duration="600000" />
+      <workItem from="1707125193595" duration="6429000" />
+      <workItem from="1707198704991" duration="3494000" />
     </task>
     <servers />
   </component>
