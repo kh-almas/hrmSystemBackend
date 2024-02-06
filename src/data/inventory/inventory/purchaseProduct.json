@@ -1,4 +1,7 @@
-
+// http://localhost:5000/inventory-management/product/purchase/ post
+// http://localhost:5000/inventory-management/product/purchase/ get
+// http://localhost:5000/inventory-management/product/purchase/update/[primaryId] put
+// http://localhost:5000/inventory-management/product/purchase/delete/ delete
 
 {
   "sku_id": "SKU567",
