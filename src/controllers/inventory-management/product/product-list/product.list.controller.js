@@ -146,9 +146,10 @@ function generateSkuCode() {
 const addProductList = async (req, res) => {
   const connection = await getDatabaseConnection();
   try {
+    // console.log('data', req.body)
     let returnItem;
     const img = req.files?.images;
-    const {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, note, sku, opening_stock_quantity, barcode_type, alert_quantity, weight_unit, purchase_price, selling_price, min_selling_price, tax_type, tax} = req.body;
+    const {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, serial_key_by_manufacture, warranty_by, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, note, sku, opening_stock_quantity, barcode_type, alert_quantity, weight_unit, purchase_price, selling_price, min_selling_price, tax_type, tax} = req.body;
     const {product_type} = req.body;
     const user_id = req.decoded.id;
 
@@ -157,7 +158,7 @@ const addProductList = async (req, res) => {
 
     await connection.beginTransaction();
 
-    const singleProduct = {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, weight_unit, note}
+    const singleProduct = {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, serial_key_by_manufacture, warranty_by, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, weight_unit, note}
     singleProduct.product_type = product_type;
     singleProduct.created_by = user_id;
     singleProduct.updated_by = user_id;
@@ -332,6 +333,8 @@ const getSingleSkuProduct = async (req, res) => {
     model.name as modelName,
     product.is_raw_material as isRawMaterial,
     product.has_serial_key as hasSerialKey,
+    product.serial_key_by_manufacture as serialKeyByManufacture,
+    product.warranty_by as warrantyBy,
     product.product_type as productType,
     product.name as productName,
     product.hsn as hsn,
@@ -429,7 +432,7 @@ const updateProductList = async (req, res) => {
 
     const productId = req.params.productId;
     const skuId = req.params.skuId;
-    const variant_sku = JSON.parse(req.body?.variant_sku)
+    const variant_sku = req.body?.variant_sku ? JSON.parse(req.body?.variant_sku) : null;
     if (req.body?.variant_sku) {
       const deletedImageFromSKU = variant_sku?.[0]?.deletedFileNameArray;
       fileDeleteFn(deletedImageFromSKU);
@@ -450,13 +453,13 @@ const updateProductList = async (req, res) => {
  
     let returnItem;
     const img = req.files?.images;
-    const {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, note, sku, opening_stock_quantity, barcode_type, alert_quantity, weight_unit, purchase_price, selling_price, min_selling_price, tax_type, tax} = req.body;
+    const {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, serial_key_by_manufacture, warranty_by, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, note, sku, opening_stock_quantity, barcode_type, alert_quantity, weight_unit, purchase_price, selling_price, min_selling_price, tax_type, tax} = req.body;
     const {product_type} = req.body;
     const user_id = req.decoded.id;
 
     const skuCode = generateSkuCode();
 
-    const singleProduct = {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, weight_unit, note}
+    const singleProduct = {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, serial_key_by_manufacture, warranty_by, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, weight_unit, note}
     singleProduct.product_type = product_type;
     singleProduct.created_by = user_id;
     singleProduct.updated_by = user_id;
@@ -487,7 +490,7 @@ const updateProductList = async (req, res) => {
       return Object.values(inputObject).flatMap(innerObj => Object.values(innerObj));
     };
 
-    const processedOption = convertObjectToArray(JSON.parse(req.body?.options));
+    const processedOption = req.body?.options ? convertObjectToArray(JSON.parse(req.body?.options)) : null;
     const [deleteProductOptionsRow] = await connection.query("DELETE FROM inventory_products_options WHERE Product_id = ?", [productId]);
 
     processedOption?.map(async singleOption => {

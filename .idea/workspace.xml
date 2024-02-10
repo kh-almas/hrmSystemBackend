@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="383d658f-521e-4f2d-8766-447043a701dc" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/inventory/inventory/purchaseProduct.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/inventory/inventory/purchaseProduct.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/inventory-management/inventory/discount/discount.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/inventory-management/inventory/discount/discount.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/inventory-management/product/product-list/product.list.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/inventory-management/product/product-list/product.list.controller.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +34,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/commonBackend&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/hrmSystemFinal/hrmSystemBackend&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -75,7 +76,11 @@
       <workItem from="1707124167369" duration="600000" />
       <workItem from="1707125193595" duration="6429000" />
       <workItem from="1707198704991" duration="4374000" />
-      <workItem from="1707207936563" duration="131000" />
+      <workItem from="1707207936563" duration="1764000" />
+      <workItem from="1707285140692" duration="3043000" />
+      <workItem from="1707370928819" duration="3992000" />
+      <workItem from="1707541500193" duration="257000" />
+      <workItem from="1707541836919" duration="5103000" />
     </task>
     <servers />
   </component>

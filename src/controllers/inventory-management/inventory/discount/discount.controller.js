@@ -42,20 +42,20 @@ const getAllDiscount = async (req, res) => {
         const connection = await getDatabaseConnection();
         const [row] = await connection.query(
             `SELECT 
-            ipd.id as id,
-            ipd.primary_id as primary_id,
-            ipd.branch_id as branch_id,
-            ipd.date as date_s_g,
-            branch.name as name_s,
-            product.name as product_s,
-            ipd.sku_id as sku_id,
-            ipd.purchase_price as purchase_price_s,
-            ipd.selling_price as selling_price_s,
-            ipd.batch_no as batch_s,
-            ipd.discount_type as discount_type_s,
-            ipd.discount_percent as discount_percent_s,
-            ipd.discount_value as discount_value_s,
-            ipd.approve_status as approve_status_s,
+            ipd.id,
+            ipd.primary_id,
+            ipd.branch_id,
+            ipd.date,
+            branch.name,
+            product.name,
+            ipd.sku_id,
+            ipd.purchase_price,
+            ipd.selling_price,
+            ipd.batch_no,
+            ipd.discount_type,
+            ipd.discount_percent,
+            ipd.discount_value,
+            ipd.approve_status,
             user.email as approve_by_s
             
              FROM inventory_product_discount AS ipd
