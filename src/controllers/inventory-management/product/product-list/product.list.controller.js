@@ -146,7 +146,6 @@ function generateSkuCode() {
 const addProductList = async (req, res) => {
   const connection = await getDatabaseConnection();
   try {
-    // console.log('data', req.body)
     let returnItem;
     const img = req.files?.images;
     const {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, serial_key_by_manufacture, warranty_by, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, note, sku, opening_stock_quantity, barcode_type, alert_quantity, weight_unit, purchase_price, selling_price, min_selling_price, tax_type, tax} = req.body;
@@ -209,13 +208,21 @@ const addProductList = async (req, res) => {
         const [singleProductSKURow] = await connection.query("INSERT INTO inventory_products_sku SET ?", skuValueForVariant);
 
         const variant = JSON.parse(productVariantSku[key]?.variant);
+        // console.log('variant', variant)
+
+        const processedDataForVariant = []
         for (let key in variant){
           const {value, variant_id} = variant[key];
-          const variantInfo = {variant_id, variation_value_id: value}
-          variantInfo.product_sku_id = singleProductSKURow?.insertId;
-          variantInfo.product_id = singleProductRow?.insertId;
-          const [inventoryProductVariantRow] = await connection.query("INSERT INTO inventory_product_variant SET ?", variantInfo);
+          processedDataForVariant.push({variant_id, variation_value_id: value})
         }
+
+        const variantInfoData = {
+          variant: JSON.stringify(processedDataForVariant),
+          product_sku_id: singleProductSKURow?.insertId,
+          product_id: singleProductRow?.insertId,
+        }
+        const [inventoryProductVariantRow] = await connection.query("INSERT INTO inventory_product_variant SET ?", variantInfoData);
+        console.log('processedDataForVariant', processedDataForVariant)
         const skuImage = productVariantSku[key]?.sku_images;
 
         skuImage?.map(async (singleImage) => {
@@ -378,16 +385,14 @@ const getSingleSkuProduct = async (req, res) => {
 
     const [productVariant] = await connection.query(`
         select 
-        productVariant.id as id,
-        variant.id as variantId,
-        variant.name as variantName,
-        variantValue.id as variantValueId,
-        variantValue.variant_value as variantValue
+        productVariant.id,
+        productVariant.variant
+        
         From inventory_product_variant as productVariant
-        LEFT JOIN inventory_variants as variant ON variant.id = productVariant.variant_id
-        LEFT JOIN inventory_variant_values as variantValue ON variantValue.id = productVariant.variation_value_id 
-         WHERE product_sku_id = ${row[0].id}
+        WHERE product_sku_id = ${row[0].id}
         `);
+
+    console.log('productVariant', productVariant)
 
     row[0].productOptions = productOptions;
     row[0].comboProduct = comboProduct;
@@ -450,7 +455,7 @@ const updateProductList = async (req, res) => {
         const [result] = await connection.query("DELETE FROM inventory_product_image WHERE name = ? and type = ?", [singleProductImage, 'product']);
       })
     }
- 
+
     let returnItem;
     const img = req.files?.images;
     const {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, serial_key_by_manufacture, warranty_by, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, note, sku, opening_stock_quantity, barcode_type, alert_quantity, weight_unit, purchase_price, selling_price, min_selling_price, tax_type, tax} = req.body;
@@ -474,7 +479,7 @@ const updateProductList = async (req, res) => {
 
       singleProductSKU.product_id = productId;
       const [singleProductSKURow] = await connection.query("UPDATE inventory_products_sku SET ? WHERE id = ? ", [singleProductSKU, skuId]);
-        
+
     }
 
     img?.map(async (singleImage) => {
