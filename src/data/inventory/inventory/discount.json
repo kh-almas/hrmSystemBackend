@@ -1,7 +1,8 @@
 //post http://localhost:5000/inventory-management/product/discount/add
 // get http://localhost:5000/inventory-management/product/discount/
 // put http://localhost:5000/inventory-management/product/discount/update/[primaryId]
-// delete http://localhost:5000/inventory-management/product/discount/delete/[primaryId]
+// delete http://localhost:5000/inventory-management/product/discount/delete/[primaryId
+
 
 {
   "branch_id": 1,
@@ -14,4 +15,5 @@
   "discount_percent": 15,
   "discount_value": 7,
   "approve_status": "Approved"
+
 }
