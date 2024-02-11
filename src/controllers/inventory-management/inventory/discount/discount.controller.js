@@ -2,6 +2,7 @@
 const getDatabaseConnection = require("../../../../configs/db.config");
 
 const addDiscount = async (req, res) => {
+    console.log(req.body)
     try {
         const {branch_id, date, sku_id, purchase_price, selling_price, batch_no, discount_type, discount_percent, discount_value, approve_status} = req.body
         const obj = {branch_id, date, sku_id, purchase_price, selling_price, batch_no, discount_type, discount_percent, discount_value, approve_status};
@@ -46,8 +47,8 @@ const getAllDiscount = async (req, res) => {
             ipd.primary_id,
             ipd.branch_id,
             ipd.date,
-            branch.name,
-            product.name,
+            branch.name AS branch_name,
+            product.name AS product_name,
             ipd.sku_id,
             ipd.purchase_price,
             ipd.selling_price,
@@ -56,7 +57,7 @@ const getAllDiscount = async (req, res) => {
             ipd.discount_percent,
             ipd.discount_value,
             ipd.approve_status,
-            user.email as approve_by_s
+            user.email as approve_by
             
              FROM inventory_product_discount AS ipd
              LEFT JOIN hrm_branch AS branch ON ipd.branch_id = branch.id
