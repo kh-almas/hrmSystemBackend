@@ -148,7 +148,7 @@ const addProductList = async (req, res) => {
   try {
     let returnItem;
     const img = req.files?.images;
-    const {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, serial_key_by_manufacture, warranty_by, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, note, sku, opening_stock_quantity, barcode_type, alert_quantity, weight_unit, purchase_price, selling_price, min_selling_price, tax_type, tax} = req.body;
+    const {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, warranty_by, stockout_sell, has_batch, has_expired, disable_ecommerce, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, note, sku, opening_stock_quantity, barcode_type, alert_quantity, weight_unit, purchase_price, selling_price, min_selling_price, tax_type, tax} = req.body;
     const {product_type} = req.body;
     const user_id = req.decoded.id;
 
@@ -157,7 +157,7 @@ const addProductList = async (req, res) => {
 
     await connection.beginTransaction();
 
-    const singleProduct = {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, serial_key_by_manufacture, warranty_by, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, weight_unit, note}
+    const singleProduct = {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, warranty_by, stockout_sell, has_batch, has_expired, disable_ecommerce, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, weight_unit, note}
     singleProduct.product_type = product_type;
     singleProduct.created_by = user_id;
     singleProduct.updated_by = user_id;
@@ -342,6 +342,7 @@ const getSingleSkuProduct = async (req, res) => {
     product.has_serial_key as hasSerialKey,
     product.serial_key_by_manufacture as serialKeyByManufacture,
     product.warranty_by as warrantyBy,
+    product.stockout_sell as stockoutSell,
     product.product_type as productType,
     product.name as productName,
     product.hsn as hsn,
@@ -387,7 +388,6 @@ const getSingleSkuProduct = async (req, res) => {
         select 
         productVariant.id,
         productVariant.variant
-        
         From inventory_product_variant as productVariant
         WHERE product_sku_id = ${row[0].id}
         `);
@@ -458,13 +458,13 @@ const updateProductList = async (req, res) => {
 
     let returnItem;
     const img = req.files?.images;
-    const {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, serial_key_by_manufacture, warranty_by, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, note, sku, opening_stock_quantity, barcode_type, alert_quantity, weight_unit, purchase_price, selling_price, min_selling_price, tax_type, tax} = req.body;
+    const {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, serial_key_by_manufacture, warranty_by, stockout_sell, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, note, sku, opening_stock_quantity, barcode_type, alert_quantity, weight_unit, purchase_price, selling_price, min_selling_price, tax_type, tax} = req.body;
     const {product_type} = req.body;
     const user_id = req.decoded.id;
 
     const skuCode = generateSkuCode();
 
-    const singleProduct = {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, serial_key_by_manufacture, warranty_by, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, weight_unit, note}
+    const singleProduct = {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, serial_key_by_manufacture, warranty_by, stockout_sell, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, weight_unit, note}
     singleProduct.product_type = product_type;
     singleProduct.created_by = user_id;
     singleProduct.updated_by = user_id;

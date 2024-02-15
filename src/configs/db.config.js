@@ -11,6 +11,14 @@ require("dotenv").config();
 // });
 
 
+// const pool = mysql.createPool({
+//   host: "localhost",
+//   user: "root",
+//   password: "",
+//   database: "u567667262_erp",
+//   dateStrings: true,
+// });
+
 const pool = mysql.createPool({
   host: "86.38.202.154",
   user: "u567667262_erp_user",

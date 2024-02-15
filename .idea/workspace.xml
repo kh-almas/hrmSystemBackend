@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="383d658f-521e-4f2d-8766-447043a701dc" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/configs/db.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/configs/db.config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controllers/inventory-management/product/product-list/product.list.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/inventory-management/product/product-list/product.list.controller.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -80,7 +81,16 @@
       <workItem from="1707370928819" duration="3992000" />
       <workItem from="1707541500193" duration="257000" />
       <workItem from="1707541836919" duration="13610000" />
-      <workItem from="1707628844073" duration="1201000" />
+      <workItem from="1707628844073" duration="5113000" />
+      <workItem from="1707648905251" duration="12000" />
+      <workItem from="1707648942559" duration="1299000" />
+      <workItem from="1707712252216" duration="606000" />
+      <workItem from="1707716126521" duration="235000" />
+      <workItem from="1707716382664" duration="3496000" />
+      <workItem from="1707802709939" duration="388000" />
+      <workItem from="1707891132375" duration="1771000" />
+      <workItem from="1707974796596" duration="4000" />
+      <workItem from="1707974813146" duration="3539000" />
     </task>
     <servers />
   </component>
