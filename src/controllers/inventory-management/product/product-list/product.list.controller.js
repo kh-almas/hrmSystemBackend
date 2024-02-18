@@ -148,7 +148,7 @@ const addProductList = async (req, res) => {
   try {
     let returnItem;
     const img = req.files?.images;
-    const {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, warranty_by, stockout_sell, has_batch, has_expired, disable_ecommerce, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, note, sku, opening_stock_quantity, barcode_type, alert_quantity, weight_unit, purchase_price, selling_price, min_selling_price, tax_type, tax} = req.body;
+    const {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, warranty_by, stockout_sell, has_batch, has_expired, disable_ecommerce, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, note, sku, opening_stock_quantity, barcode_type, alert_quantity, weight_unit, purchase_price = 0, selling_price = 0, min_selling_price = 0, tax_type, tax} = req.body;
     const {product_type} = req.body;
     const user_id = req.decoded.id;
 
@@ -340,7 +340,9 @@ const getSingleSkuProduct = async (req, res) => {
     model.name as modelName,
     product.is_raw_material as isRawMaterial,
     product.has_serial_key as hasSerialKey,
-    product.serial_key_by_manufacture as serialKeyByManufacture,
+    product.has_batch as hasBatch,
+    product.has_expired as hasExpired,
+    product.disable_ecommerce as disableEcommerce,
     product.warranty_by as warrantyBy,
     product.stockout_sell as stockoutSell,
     product.product_type as productType,
@@ -458,13 +460,13 @@ const updateProductList = async (req, res) => {
 
     let returnItem;
     const img = req.files?.images;
-    const {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, serial_key_by_manufacture, warranty_by, stockout_sell, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, note, sku, opening_stock_quantity, barcode_type, alert_quantity, weight_unit, purchase_price, selling_price, min_selling_price, tax_type, tax} = req.body;
+    const {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, warranty_by, stockout_sell, has_batch, has_expired, disable_ecommerce, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, note, sku, opening_stock_quantity, barcode_type, alert_quantity, weight_unit, purchase_price = 0, selling_price = 0, min_selling_price = 0, tax_type, tax} = req.body;
     const {product_type} = req.body;
     const user_id = req.decoded.id;
 
     const skuCode = generateSkuCode();
 
-    const singleProduct = {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, serial_key_by_manufacture, warranty_by, stockout_sell, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, weight_unit, note}
+    const singleProduct = {unit_id, brand_id, category_id, model_id, is_raw_material, has_serial_key, warranty_by, stockout_sell, has_batch, has_expired, disable_ecommerce, name, hsn, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, weight_unit, note}
     singleProduct.product_type = product_type;
     singleProduct.created_by = user_id;
     singleProduct.updated_by = user_id;
