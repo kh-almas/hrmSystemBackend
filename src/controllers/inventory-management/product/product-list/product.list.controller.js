@@ -273,7 +273,7 @@ const getProductListForComboSelect = async (req, res) => {
   try {
     const connection = await getDatabaseConnection();
     const [row] = await connection.query(
-        `SELECT p.name as name, ps.selling_price as price, ps.tax as tax, ps.id as id, ps.sku as sku, pc.name as category_name, pm.name as model_name, pb.name as brand_name
+        `SELECT p.name as name, p.has_serial_key as hasSerialKey, p.has_batch as hasBatch, p.has_expired as hasExpired, ps.selling_price as price, ps.tax as tax, ps.id as id, ps.sku as sku, pc.name as category_name, pm.name as model_name, pb.name as brand_name
 
        FROM inventory_products_sku as ps
               LEFT JOIN inventory_products as p ON p.id = ps.product_id
