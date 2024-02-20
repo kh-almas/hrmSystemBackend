@@ -11,9 +11,7 @@ const getBrandProductInitialization = async (req, res) => {
             const [row] = await connection.query(
                 `SELECT product_id FROM inventory_product_inetialization WHERE branch_id = ${id}`
             );
-
             connection.release();
-
             return res.status(200).json({
                 status: "ok",
                 body: {
