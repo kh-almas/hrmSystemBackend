@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="383d658f-521e-4f2d-8766-447043a701dc" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/inventory-management/product/product-list/product.list.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/inventory-management/product/product-list/product.list.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/inventory-management/product/brand-product-initialization/brand.product.initialization.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/inventory-management/product/brand-product-initialization/brand.product.initialization.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/inventory-management/branch-product-initialization/brand.product.initialization.route.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/inventory-management/branch-product-initialization/brand.product.initialization.route.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +97,8 @@
       <workItem from="1708164068039" duration="4557000" />
       <workItem from="1708234901197" duration="82000" />
       <workItem from="1708234998649" duration="7190000" />
-      <workItem from="1708323028969" duration="1412000" />
+      <workItem from="1708323028969" duration="2297000" />
+      <workItem from="1708414017223" duration="600000" />
     </task>
     <servers />
   </component>
@@ -176,6 +178,12 @@
           <url>file://$PROJECT_DIR$/src/middlewares/auth/user.verify.js</url>
           <line>5</line>
           <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/app.js</url>
+          <line>61</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
