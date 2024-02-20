@@ -2,7 +2,11 @@
 const express = require("express");
 const userVerify = require("../../../middlewares/auth/user.verify");
 const paramsValidation = require("../../../validations/shared/params.validation");
-const {getBrandProductInitialization, updateBrandProductInitialization, deleteBrandProductInitialization} = require("../../../controllers/inventory-management/product/brand-product-initialization/brand.product.initialization.controller");
+const {
+  getBrandProductInitialization,
+  updateBrandProductInitialization,
+  deleteBrandProductInitialization,
+} = require("../../../controllers/inventory-management/product/brand-product-initialization/brand.product.initialization.controller");
 
 // router
 const brandProductInitializationRouter = express.Router();
@@ -14,10 +18,16 @@ brandProductInitializationRouter.use(userVerify);
 brandProductInitializationRouter.get("/:id", getBrandProductInitialization);
 
 // update
-brandProductInitializationRouter.put("/update/:id", updateBrandProductInitialization);
+brandProductInitializationRouter.put(
+  "/update/:id",
+  updateBrandProductInitialization
+);
 
 // delete
-brandProductInitializationRouter.put("/delete/:id", deleteBrandProductInitialization);
+brandProductInitializationRouter.delete(
+  "/delete/:id",
+  deleteBrandProductInitialization
+);
 
 // export
 module.exports = brandProductInitializationRouter;
