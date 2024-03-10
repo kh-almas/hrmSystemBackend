@@ -49,7 +49,7 @@ app.use("/hrm-system", hrmSystemRouter);
 app.use("/upload-files", fileUploadRouter);
 
 // resource controller
-app.use("/inventory-management/contacts", contactRouter);
+app.use( "/inventory-management/contacts", contactRouter);
 app.use("/inventory-management/products", productsRouter);
 app.use("/inventory-management/products/settings", productSettingsRouter);
 app.use("/inventory-management/branch/products/initialization", brandProductInitializationRouter);
