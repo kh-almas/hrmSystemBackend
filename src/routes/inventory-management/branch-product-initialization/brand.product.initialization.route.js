@@ -18,10 +18,7 @@ brandProductInitializationRouter.use(userVerify);
 brandProductInitializationRouter.get("/:id", getBrandProductInitialization);
 
 // update
-brandProductInitializationRouter.put(
-  "/update/:id",
-  updateBrandProductInitialization
-);
+brandProductInitializationRouter.put("/update/:id", [paramsValidation], updateBrandProductInitialization);
 
 // delete
 brandProductInitializationRouter.delete(

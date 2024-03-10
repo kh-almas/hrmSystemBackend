@@ -9,6 +9,7 @@ const {
     updateProductList, 
     getSingleSkuProduct, 
     getProductListForComboSelect,
+    getProductListForComboSelectByProduct,
     deleteProductList, 
     addProductOptions, 
     getProductOptions, 
@@ -146,6 +147,9 @@ productRouter.use((err, req, res, next) => {
 
 // get
 productRouter.get("/list/combo/select", getProductListForComboSelect);
+
+// get
+productRouter.get("/list/combo/product/select", getProductListForComboSelectByProduct);
 
 // get
 productRouter.get("/single/sku/:id", getSingleSkuProduct);

@@ -6,8 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="383d658f-521e-4f2d-8766-447043a701dc" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/inventory-management/product/brand-product-initialization/brand.product.initialization.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/inventory-management/product/brand-product-initialization/brand.product.initialization.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/inventory-management/product/product-list/product.list.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/inventory-management/product/product-list/product.list.controller.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes/inventory-management/branch-product-initialization/brand.product.initialization.route.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/inventory-management/branch-product-initialization/brand.product.initialization.route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/inventory-management/product/product.route.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/inventory-management/product/product.route.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,20 +30,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/hrmSystemFinal/hrmSystemBackend/src/controllers/inventory-management/product&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "D:/hrmSystemFinal/hrmSystemBackend",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\hrmSystemFinal\hrmSystemBackend\src\controllers\inventory-management\product" />
@@ -98,7 +99,19 @@
       <workItem from="1708234901197" duration="82000" />
       <workItem from="1708234998649" duration="7190000" />
       <workItem from="1708323028969" duration="2297000" />
-      <workItem from="1708414017223" duration="600000" />
+      <workItem from="1708414017223" duration="1243000" />
+      <workItem from="1708419702541" duration="24000" />
+      <workItem from="1708419742660" duration="268000" />
+      <workItem from="1708604406831" duration="64000" />
+      <workItem from="1709713601882" duration="49000" />
+      <workItem from="1709713689663" duration="221000" />
+      <workItem from="1709719374468" duration="41000" />
+      <workItem from="1709719433817" duration="2381000" />
+      <workItem from="1709789069197" duration="3800000" />
+      <workItem from="1709962934124" duration="161000" />
+      <workItem from="1709963124771" duration="3744000" />
+      <workItem from="1710050983270" duration="68000" />
+      <workItem from="1710051078262" duration="1413000" />
     </task>
     <servers />
   </component>
@@ -171,19 +184,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/controllers/inventory-management/product/brand-product-initialization/brand.product.initialization.controller.js</url>
-          <line>18</line>
+          <line>9</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/middlewares/auth/user.verify.js</url>
           <line>5</line>
           <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/app.js</url>
-          <line>61</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
