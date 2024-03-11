@@ -27,6 +27,7 @@ const stockReconciliationRouter = require("./routes/inventory-management/stock-r
 const discountRouter = require("./routes/inventory-management/discount/discount.router");
 const purchaseProductRouter = require("./routes/inventory-management/purchase-product/purchase.product.router");
 const taxRouter = require("./routes/inventory-management/tax/tax.route");
+const purchaseRequisitionRouter = require("./routes/inventory-management/purchase-requisition/purchase-requisition.router");
 
 
 
@@ -58,6 +59,7 @@ app.use("/inventory-management/stock/adjustment", stockAdjustmentRouter);
 app.use("/inventory-management/stock/reconciliation", stockReconciliationRouter);
 app.use("/inventory-management/product/discount", discountRouter);
 app.use("/inventory-management/product/purchase", purchaseProductRouter);
+app.use("/inventory-management/purchase/requisition", purchaseRequisitionRouter);
 app.use("/inventory-management/variant", variantRouter);
 app.use("/inventory-management/product/tax", taxRouter);
 app.use("/inventory-management/unit-type", unitTypeRouter);
