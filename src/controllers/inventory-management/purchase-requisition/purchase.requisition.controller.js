@@ -1,5 +1,5 @@
 // require
-const getDatabaseConnection = require("../../../../configs/db.config");
+const getDatabaseConnection = require("../../../configs/db.config");
 
 const addPurchaseRequisition = async (req, res) => {
   try {
@@ -63,7 +63,12 @@ const getAllPurchaseRequisition = async (req, res) => {
       requisition.id, 
       branch.name as branch_name_s, 
       inventory_contacts.name as supplier_name_s, 
-      requisition.supplier_id , 
+      requisition.branch_id, 
+      requisition.supplier_id, 
+      requisition.requisition_no, 
+      requisition.total_qty, 
+      requisition.shipping_add, 
+      requisition.status, 
       primary_id,
       requisition.transaction_date as transaction_date_s_g, 
       requisition.total_qty as total_quantity_s, 
