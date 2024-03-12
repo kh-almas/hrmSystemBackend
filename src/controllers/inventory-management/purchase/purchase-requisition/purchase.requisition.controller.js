@@ -1,5 +1,5 @@
 // require
-const getDatabaseConnection = require("../../../configs/db.config");
+const getDatabaseConnection = require("../../../../configs/db.config");
 
 const addPurchaseRequisition = async (req, res) => {
   try {
