@@ -7,7 +7,7 @@ const {
   getAllPurchaseRequisition,
   updatePurchaseRequisition,
   deletePurchaseRequisition,
-} = require("../../../controllers/inventory-management/purchase-requisition/purchase.requisition.controller");
+} = require("../../../controllers/inventory-management/purchase/purchase-requisition/purchase.requisition.controller");
 
 // router
 const purchaseRequisitionRouter = express.Router();
