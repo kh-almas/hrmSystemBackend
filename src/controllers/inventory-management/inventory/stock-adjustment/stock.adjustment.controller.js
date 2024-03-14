@@ -3,30 +3,39 @@ const getDatabaseConnection = require("../../../../configs/db.config");
 
 const addStockAdjustment = async (req, res) => {
   try {
-    const {branch_id, sku_id, purpose_type, ref_id, batch_no, qty, date, purchase_price, sales_price} = req.body
-    const obj = {branch_id, sku_id, purpose_type, ref_id, batch_no, qty, date, purchase_price, sales_price};
+    // console.log('req.body', req.body);
+    const {branch_id, purpose_type, ref_id = '', sku_id, total_qty, total_price, total_discount, other_cost, total_vat, date} = req.body
+
+    const obj = {branch_id, purpose_type, ref_id, total_qty, total_price, total_discount, other_cost, total_vat, date};
     obj.created_by = req.decoded.id;
     obj.updated_by = req.decoded.id;
+    obj.status = 'Active';
+    obj.approve_status = 'Pending';
 
-    const pricingObj = {branch_id, sku_id, batch_no, date, purchase_price, selling_price: sales_price};
-    pricingObj.created_by = req.decoded.id;
-    pricingObj.updated_by = req.decoded.id;
+    const childObj = {other_cost};
+    childObj.created_by = req.decoded.id;
+    childObj.updated_by = req.decoded.id;
+    childObj.status = 'Active';
+
+    const transactionsObj = {transaction_type: 'SA', sku_id, price: total_price, tax: total_vat, other_cost, discount: total_discount, request_qty: total_qty, actual_qty: total_qty};
+    transactionsObj.created_by = req.decoded.id;
+    transactionsObj.updated_by = req.decoded.id;
 
     const connection = await getDatabaseConnection();
     const [checkUnique] = await connection.query(
         `SELECT LPAD(FN_primary_id_opening_stock (${branch_id}, 2), 18, '0') AS Result`
     );
     obj.primary_id = checkUnique?.[0]?.Result;
-    pricingObj.primary_id = checkUnique?.[0]?.Result;
+    transactionsObj.primary_id = checkUnique?.[0]?.Result;
 
-    console.log('pricingObj', pricingObj)
+    console.log('Obj', obj);
     const [adjustmentRow] = await connection.query(
         "INSERT INTO inventory_product_adjustment SET ?",
         obj
     );
-    const [PricingRow] = await connection.query(
-        "INSERT INTO inventory_product_pricing SET ?",
-        pricingObj
+    const [TransactionsRow] = await connection.query(
+        "INSERT INTO inventory_product_transactions SET ?",
+        transactionsObj
     );
     connection.release();
 
@@ -35,7 +44,7 @@ const addStockAdjustment = async (req, res) => {
         body: {
             message: "one stock adjustment added",
             adjustment_table_data: adjustmentRow,
-            pricing_table_data: PricingRow,
+            transactions_table_data: TransactionsRow,
         },
     });
   } catch (err) {
@@ -54,21 +63,24 @@ const getAllStockAdjustment = async (req, res) => {
     const [row] = await connection.query(
       `SELECT 
             ipa.id as id,
+            ipa.primary_id as primary_id,
             ipa.branch_id as branch_id,
-            ipa.sku_id as sku_id,
-            ipa.purpose_type as purpose_type_s,
-            ipa.ref_id as ref_id_s,
-            ipa.date as date_s_g,
-            branch.name as name_s,
-            product.name as product_s,
-            ipa.batch_no as batch_s,
-            ipa.qty  as quantity_s,
-            ipa.purchase_price as purchase_price_s,
-            ipa.sales_price as selling_price_s
+            ipa.ref_id as ref_id,
+            ipa.purpose_type as purpose_type_s_g,
+            branch.name as branch_name_s,
+            product.name as product_name_s,
+            ipa.date as date_s,
+            ipa.total_qty as total_qty_s,
+            ipa.total_price as total_price_s,
+            ipa.total_discount as total_discount_s,
+            ipa.other_cost as other_cost_s,
+            ipa.total_vat as total_vat_s,
+            ipa.approve_status as approve_status_s,
+            ipa.approve_date as approve_date_s,
+            ipa.status as status_s
              FROM  inventory_product_adjustment AS ipa
              LEFT JOIN hrm_branch AS branch ON ipa.branch_id = branch.id
-             LEFT JOIN inventory_products_sku AS sku ON ipa.sku_id = sku.id
-             LEFT JOIN inventory_products AS product ON sku.product_id = product.id`
+             LEFT JOIN inventory_products AS product ON product.id = ipa.ref_id`
     );
     connection.release();
 
@@ -93,25 +105,27 @@ const getAllStockAdjustment = async (req, res) => {
 
 const updateStockAdjustment = async (req, res) => {
   try {
-    const { batchNo } = req.params;
-    const {branch_id, sku_id, purpose_type, ref_id, batch_no, qty, date, purchase_price, sales_price} = req.body
-    const obj = {branch_id, sku_id, purpose_type, ref_id, batch_no, qty, date, purchase_price, sales_price};
+    const { primaryId } = req.params;
+    const {branch_id, purpose_type, ref_id, total_qty, total_price, total_discount, other_cost, total_vat, date} = req.body
+    const obj = {branch_id, purpose_type, ref_id, total_qty, total_price, total_discount, other_cost, total_vat, date};
     obj.created_by = req.decoded.id;
     obj.updated_by = req.decoded.id;
+    obj.status = 'Pending';
+    obj.approve_status = 'Pending';
 
-    const pricingObj = {branch_id, sku_id, batch_no, date, purchase_price, selling_price: sales_price};
+    const pricingObj = {branch_id, sku_id: ref_id, date, purchase_price: total_price};
     pricingObj.created_by = req.decoded.id;
     pricingObj.updated_by = req.decoded.id;
 
     const connection = await getDatabaseConnection();
 
     const [adjustmentRow] = await connection.query(
-      "UPDATE inventory_product_adjustment SET ? WHERE batch_no = ?",
-      [obj, batchNo]
+      "UPDATE inventory_product_adjustment SET ? WHERE primary_id = ?",
+      [obj, primaryId]
     );
     const [PricingRow] = await connection.query(
-      "UPDATE inventory_product_pricing SET ? WHERE batch_no = ?",
-      [pricingObj, batchNo]
+      "UPDATE inventory_product_pricing SET ? WHERE primary_id = ?",
+      [pricingObj, primaryId]
     );
     connection.release();
 
@@ -135,16 +149,16 @@ const updateStockAdjustment = async (req, res) => {
 
 const deleteStockAdjustment = async (req, res) => {
   try {
-    const { batchNo } = req.params;
+    const { primaryId } = req.params;
 
     const connection = await getDatabaseConnection();
     const [adjustmentRow] = await connection.query(
-      "DELETE FROM inventory_product_adjustment WHERE batch_no = ?",
-      [batchNo]
+      "DELETE FROM inventory_product_adjustment WHERE primary_id = ?",
+      [primaryId]
     );
     const [PricingRow] = await connection.query(
-      "DELETE FROM inventory_product_pricing WHERE batch_no = ?",
-      [batchNo]
+      "DELETE FROM inventory_product_pricing WHERE primary_id = ?",
+      [primaryId]
     );
     connection.release();
 

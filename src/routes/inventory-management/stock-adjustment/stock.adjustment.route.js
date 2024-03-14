@@ -17,10 +17,10 @@ stockAdjustmentRouter.post("/add", [stockAdjustmentValidation], addStockAdjustme
 stockAdjustmentRouter.get("/", getAllStockAdjustment);
 
 // // update
-stockAdjustmentRouter.put("/update/:batchNo", [stockAdjustmentValidation], updateStockAdjustment);
+stockAdjustmentRouter.put("/update/:primaryId", [stockAdjustmentValidation], updateStockAdjustment);
 
 // // delete
-stockAdjustmentRouter.delete("/delete/:batchNo", deleteStockAdjustment);
+stockAdjustmentRouter.delete("/delete/:primaryId", deleteStockAdjustment);
 
 // export
 module.exports = stockAdjustmentRouter;

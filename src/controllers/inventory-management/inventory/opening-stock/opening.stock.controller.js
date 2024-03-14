@@ -52,21 +52,8 @@ const getAllOpeningStock = async (req, res) => {
         const connection = await getDatabaseConnection();
         const [row] = await connection.query(
             `SELECT 
-            ios.id as id,
-            ios.branch_id as branch_id,
-            ios.sku_id as sku_id,
-            ios.date as date_s_g,
-            branch.name as name_s,
-            product.name as product_s,
-            ios.batch_no as batch_s,
-            ios.qty  as quantity_s,
-            ios.purchase_price as purchase_price_s,
-            ios.selling_price as selling_price_s,
-            ios.total_discount as total_discount_s
-             FROM  inventory_opening_stock AS ios
-             LEFT JOIN hrm_branch AS branch ON ios.branch_id = branch.id
-             LEFT JOIN inventory_products_sku AS sku ON ios.sku_id = sku.id
-             LEFT JOIN inventory_products AS product ON sku.product_id = product.id`
+            ios.id as id
+             FROM  inventory_opening_stock AS ios`
         );
         connection.release();
 

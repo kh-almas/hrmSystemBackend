@@ -275,6 +275,7 @@ const getProductListForComboSelect = async (req, res) => {
     const [row] = await connection.query(
         `SELECT 
             ps.id as id,
+            p.id as product_id,
             p.name as name, 
             p.has_serial_key as hasSerialKey, 
             p.has_batch as hasBatch, 
@@ -299,7 +300,7 @@ const getProductListForComboSelect = async (req, res) => {
     return res.status(200).json({
       status: "ok",
       body: {
-        message: "get all product list`",
+        message: "get all product sku list`",
         data: row,
       },
     });
@@ -324,16 +325,12 @@ const getProductListForComboSelectByProduct = async (req, res) => {
             p.name as name, 
             p.has_serial_key as hasSerialKey, 
             p.has_batch as hasBatch, 
-            p.has_expired as hasExpired, 
-            ps.selling_price as price, 
-            ps.tax as tax,  
-            ps.sku as sku, 
+            p.has_expired as hasExpired,  
             pc.name as category_name, 
             pm.name as model_name, 
             pb.name as brand_name
 
-       FROM inventory_products_sku as ps
-              LEFT JOIN inventory_products as p ON p.id = ps.product_id
+       FROM inventory_products as p
               LEFT JOIN inventory_product_categorys as pc ON p.category_id = pc.id
               LEFT JOIN inventory_product_models pm ON p.model_id = pm.id
               LEFT JOIN inventory_product_brands as pb ON p.brand_id = pb.id

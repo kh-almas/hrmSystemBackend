@@ -4,24 +4,23 @@ const Joi = require("joi");
 
 // schema
 const ValidationSchema = Joi.object({
-
     branch_id: Joi.number().required(),
-    sku_id: Joi.number().required(),
     purpose_type: Joi.string().required(),
     ref_id: Joi.number().required(),
-    batch_no: Joi.string().required(),
-    qty: Joi.number().required(),
+    total_qty: Joi.number().required(),
+    total_price: Joi.number().required(),
+    total_discount: Joi.number().required(),
+    other_cost: Joi.number().required(),
+    total_vat: Joi.number().required(),
     date: Joi.date().required(),
-    purchase_price: Joi.number().required(),
-    sales_price: Joi.number().required(),
 });
 
 
 // add model validation
 const stockAdjustmentValidation = async (req, res, next) => {
     try {
-        const {branch_id, sku_id, purpose_type, ref_id, batch_no, qty, date, purchase_price, sales_price} = req.body
-        const obj = {branch_id, sku_id, purpose_type, ref_id, batch_no, qty, date, purchase_price, sales_price};
+        const {branch_id, purpose_type, ref_id, total_qty, total_price, total_discount, other_cost, total_vat, date} = req.body
+        const obj = {branch_id, purpose_type, ref_id, total_qty, total_price, total_discount, other_cost, total_vat, date};
 
         await ValidationSchema.validateAsync(obj);
 
