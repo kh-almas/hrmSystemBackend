@@ -7,6 +7,7 @@ const {
   getAllPurchaseRequisition,
   updatePurchaseRequisition,
   deletePurchaseRequisition,
+  getSinglePurchaseRequisition,
 } = require("../../../controllers/inventory-management/purchase/purchase-requisition/purchase.requisition.controller");
 
 // router
@@ -18,12 +19,15 @@ purchaseRequisitionRouter.use(userVerify);
 // post
 purchaseRequisitionRouter.post(
   "/",
-  [purchaseRequisitionValidation],
+  // [purchaseRequisitionValidation],
   addPurchaseRequisition
 );
 
 // get all
 purchaseRequisitionRouter.get("/", getAllPurchaseRequisition);
+
+// get single
+purchaseRequisitionRouter.get("/single/:primaryId", getSinglePurchaseRequisition);
 
 // update
 purchaseRequisitionRouter.put(
