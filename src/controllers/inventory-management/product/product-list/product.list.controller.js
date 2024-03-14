@@ -167,6 +167,7 @@ const addProductList = async (req, res) => {
     if (product_type === 'Single' || product_type === 'Combo' || product_type === 'Service'){
       const singleProductSKU = {sku, opening_stock_quantity, barcode_type, alert_quantity, purchase_price, selling_price, min_selling_price, tax_type, tax, p_height, p_width, p_length, p_weight, package_height, package_width, package_length, package_weight, measurement_unit, weight_unit};
       singleProductSKU.created_by = user_id;
+      1``
       singleProductSKU.updated_by = user_id;
 
       if (singleProductRow?.insertId > 0) {
