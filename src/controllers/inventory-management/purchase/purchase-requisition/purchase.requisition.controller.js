@@ -67,7 +67,7 @@ const addPurchaseRequisition = async (req, res) => {
       const [checkUnique] = await connection.query(
         `SELECT LPAD(FN_primary_id_opening_stock (1, 2), 18, '0') AS Result`
       );
-      singleProduct.primary_id = checkUnique?.[0]?.Result;
+      singleProduct.primary_id = `PRQ${checkUnique?.[0]?.Result}`;
       singleProduct.status = status;
       singleProduct.created_by = req.decoded.id;
       singleProduct.updated_by = req.decoded.id;
@@ -399,8 +399,8 @@ const updatePurchaseRequisition = async (req, res) => {
 
     const connection = await getDatabaseConnection();
     const [purchaseRequisition] = await connection.query(
-      "UPDATE inventory_purchase_requisition SET ?",
-      purchaseRequisitionObj
+      "UPDATE inventory_purchase_requisition SET ? WHERE primary_id = ?",
+      [purchaseRequisitionObj, primaryId]
     );
 
     // Delete existing child records
@@ -431,8 +431,13 @@ const updatePurchaseRequisition = async (req, res) => {
         manufacture_date,
         expire_date,
       };
-      // singleProduct.transaction_type = transaction_type;
-      // singleProduct.primary_id = primary_id;
+      singleProduct.transaction_id = primaryId;
+      singleProduct.transaction_type = "PRQ";
+
+      const [checkUnique] = await connection.query(
+        `SELECT LPAD(FN_primary_id_opening_stock (1, 2), 18, '0') AS Result`
+      );
+      singleProduct.primary_id = `PRQ${checkUnique?.[0]?.Result}`;
       singleProduct.status = status;
       singleProduct.updated_by = req.decoded.id;
 
