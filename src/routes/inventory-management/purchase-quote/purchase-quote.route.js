@@ -6,6 +6,7 @@ const {
   getAllPurchaseQuote,
   updatePurchaseQuote,
   deletePurchaseQuote,
+  getSinglePurchaseQuote,
 } = require("../../../controllers/inventory-management/purchase/purchase-quote/purchase.quote.controller");
 const purchaseQuoteValidation = require("../../../validations/inventory-management/inventory/purchase.quote.validation");
 
@@ -20,6 +21,9 @@ purchaseQuoteRouter.post("/", [purchaseQuoteValidation], addPurchaseQuote);
 
 // get all
 purchaseQuoteRouter.get("/", getAllPurchaseQuote);
+
+// get single
+purchaseQuoteRouter.get("/single/:primaryId", getSinglePurchaseQuote);
 
 // update
 purchaseQuoteRouter.put(
